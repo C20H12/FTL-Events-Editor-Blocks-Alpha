@@ -4,16 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FTL Modding: Blocks Editor</title>
-    <link href="./style.css" rel="stylesheet" type="text/css" />
     <link rel="icon" type="image/png" sizes="32x32" href="./src/favicon_io/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="16x16" href="./src/favicon_io/favicon-32x32.png">
   </head>
   <body>
-    
-    <div id="blocklyDiv" style="height: 980px; width: 900px;"></div>
-    <textarea id="outputArea" rows="61" placeholder="OUTPUT WILL DISPLAY HERE" readonly></textarea>
-    
     <div id="root"></div>
+    
+    <div id="blocksAreasWrapper">
+      <div id="blocklyDiv" style="height: 980px; width: 900px;"></div>
+      <textarea id="outputArea" rows="61" placeholder="OUTPUT WILL DISPLAY HERE" readonly></textarea>
+    </div>
+    
     <script type="module" src="./src/blockDefinitions.js"></script>
     <script type="module" src="/src/main.tsx"></script>
   </body>

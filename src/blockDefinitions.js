@@ -16,7 +16,7 @@ Blockly.Blocks['event'] = {
 };
 
 Blockly.Blocks['choice'] = {
-  init: function() {
+  init() {
     this.appendDummyInput()
         .appendField("<choice>")
         .appendField("Hidden?")
@@ -32,7 +32,7 @@ Blockly.Blocks['choice'] = {
 };
 
 Blockly.Blocks['event_nested'] = {
-  init: function() {
+  init() {
     this.appendDummyInput()
         .appendField("<event>")
         .appendField("(nested)");
@@ -47,7 +47,7 @@ Blockly.Blocks['event_nested'] = {
 };
 
 Blockly.Blocks['text'] = {
-  init: function() {
+  init() {
     const validate = (text) => {
       if (text.includes("cant")) {
         return this.setWarningText('Error: can\'tina');
@@ -69,7 +69,7 @@ Blockly.Blocks['text'] = {
 };
 
 Blockly.Blocks['event_end'] = {
-  init: function() {
+  init() {
     this.appendDummyInput()
         .appendField("<event/>");
     this.setPreviousStatement(true, null);
@@ -80,7 +80,7 @@ Blockly.Blocks['event_end'] = {
 };
 
 Blockly.Blocks['event_load'] = {
-  init: function() {
+  init() {
     this.appendDummyInput()
         .appendField("<event> Load")
         .appendField(new Blockly.FieldTextInput("EVENT_NAME"), "LDEVENT");
@@ -92,7 +92,7 @@ Blockly.Blocks['event_load'] = {
 };
 
 Blockly.Blocks['event_list'] = {
-  init: function() {
+  init() {
     this.appendDummyInput()
         .appendField("<eventList> Name")
         .appendField(new Blockly.FieldTextInput("LIST_NAME"), "EVLIST_NAME");
@@ -105,7 +105,7 @@ Blockly.Blocks['event_list'] = {
 };
 
 Blockly.Blocks['choice_adv'] = {
-  init: function() {
+  init() {
     this.appendValueInput("ATTRIBUTES")
         .setCheck(null)
         .appendField("<choice>")
@@ -115,7 +115,7 @@ Blockly.Blocks['choice_adv'] = {
         .setCheck(null);
     this.appendDummyInput()
         .appendField("No Blue?")
-        .appendField(new Blockly.FieldCheckbox("TRUE"), "BLUE");
+        .appendField(new Blockly.FieldCheckbox("FALSE"), "BLUE");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(20);
@@ -125,7 +125,7 @@ Blockly.Blocks['choice_adv'] = {
 };
 
 Blockly.Blocks['attri_req'] = {
-  init: function() {
+  init() {
     this.appendValueInput("REQ1")
         .setCheck(null)
         .appendField("Require")
@@ -138,7 +138,7 @@ Blockly.Blocks['attri_req'] = {
 };
 
 Blockly.Blocks['attri_lvl'] = {
-  init: function() {
+  init() {
     this.appendValueInput("LVL1")
         .setCheck(null)
         .appendField("Level")
@@ -151,7 +151,7 @@ Blockly.Blocks['attri_lvl'] = {
 };
 
 Blockly.Blocks['attri_maxlvl'] = {
-  init: function() {
+  init() {
     this.appendValueInput("MAX")
         .setCheck(null)
         .appendField("Max Level")
@@ -164,7 +164,7 @@ Blockly.Blocks['attri_maxlvl'] = {
 };
 
 Blockly.Blocks['attri_maxgp'] = {
-  init: function() {
+  init() {
     this.appendValueInput("MAXGRP")
         .setCheck(null)
         .appendField("Max Group")
@@ -179,7 +179,7 @@ Blockly.Blocks['attri_maxgp'] = {
 
 
 Blockly.Blocks['text_list'] = {
-  init: function() {
+  init() {
     this.appendDummyInput()
         .appendField("<textList> Name")
         .appendField(new Blockly.FieldTextInput("TEXT_LIST_NAME"), "TXLT_NAME");
@@ -192,7 +192,7 @@ Blockly.Blocks['text_list'] = {
 };
 
 Blockly.Blocks['text_load'] = {
-  init: function() {
+  init() {
     this.appendDummyInput()
         .appendField("<text> Load")
         .appendField(new Blockly.FieldTextInput("TEXT_LIST_NAME"), "TXLOAD");
@@ -206,7 +206,7 @@ Blockly.Blocks['text_load'] = {
 
 
 Blockly.Blocks['reward_auto'] = {
-  init: function() {
+  init() {
     this.appendDummyInput()
         .appendField("<autoReward> Level:")
         .appendField(new Blockly.FieldDropdown([["HIGH","HIGH"], ["MED","MED"], ["LOW","LOW"], ["RANDOM","RANDOM"]]), "REWARD_LEVEL")
@@ -221,7 +221,7 @@ Blockly.Blocks['reward_auto'] = {
 };
 
 Blockly.Blocks['item_modify'] = {
-  init: function() {
+  init() {
     this.appendDummyInput()
         .appendField("<item_modify> Steal?")
         .appendField(new Blockly.FieldCheckbox("FALSE"), "ITEM_STEAL");
@@ -236,7 +236,7 @@ Blockly.Blocks['item_modify'] = {
 };
 
 Blockly.Blocks['item'] = {
-  init: function() {
+  init() {
     this.appendDummyInput()
         .appendField("<item> type:")
         .appendField(new Blockly.FieldDropdown([["scrap","scrap"], ["fuel","fuel"], ["missiles","missiles"], ["drones","drones"]]), "ITEM_TYPE")
@@ -254,7 +254,7 @@ Blockly.Blocks['item'] = {
 
 
 Blockly.Blocks['boarders'] = {
-  init: function() {
+  init() {
     this.appendDummyInput()
         .appendField("<boarders> min:")
         .appendField(new Blockly.FieldNumber(0, -Infinity, Infinity, 1), "MIN")
@@ -271,7 +271,7 @@ Blockly.Blocks['boarders'] = {
 };
 
 Blockly.Blocks['comment'] = {
-  init: function() {
+  init() {
     this.appendDummyInput()
         .appendField("Comment:")
         .appendField(new Blockly.FieldTextInput("This is a comment!"), "COMT");
@@ -281,18 +281,18 @@ Blockly.Blocks['comment'] = {
   }
 };
 
+//injection----------------------------------------------------------
+
+import { toolbox } from "./toolbox";
+const workspace = Blockly.inject('blocklyDiv',  {toolbox: toolbox});
 
 //generation definitions--------------------------------------------------------
 
-import { toolbox } from "./toolbox";
-
-var workspace = Blockly.inject('blocklyDiv',  {toolbox: toolbox});
-
-Blockly.JavaScript['event'] = function(block) {
-  var text_eventname = block.getFieldValue('eventName');
-  var statements_name = Blockly.JavaScript.statementToCode(block, 'EVENT_CHILDS');
-  var checkbox_uniq = block.getFieldValue('UNIQ') === 'TRUE';
-  var code = '';
+Blockly.JavaScript['event'] = block => {
+  let text_eventname = block.getFieldValue('eventName');
+  let statements_name = Blockly.JavaScript.statementToCode(block, 'EVENT_CHILDS');
+  let checkbox_uniq = block.getFieldValue('UNIQ') === 'TRUE';
+  let code = '';
   if (checkbox_uniq){
     code = `<event name="${text_eventname.toUpperCase()}" unique="${checkbox_uniq}">
 ${statements_name}</event>
@@ -304,10 +304,10 @@ ${statements_name}</event>
   }
   return code;
 };
-Blockly.JavaScript['choice'] = function(block) {
-  var checkbox_hidden = block.getFieldValue('hidden') === 'TRUE';
-  var statements_name = Blockly.JavaScript.statementToCode(block, 'CHOICE_S');
-  var code = '';
+Blockly.JavaScript['choice'] = block => {
+  let checkbox_hidden = block.getFieldValue('hidden') === 'TRUE';
+  let statements_name = Blockly.JavaScript.statementToCode(block, 'CHOICE_S');
+  let code = '';
   if (checkbox_hidden){
     code = `<choice hidden="${checkbox_hidden}">
 ${statements_name}</choice>
@@ -320,47 +320,47 @@ ${statements_name}</choice>
   return code;
 };
 
-Blockly.JavaScript['event_nested'] = function(block) {
-  var statements_name = Blockly.JavaScript.statementToCode(block, 'EVENT_N');
-  var code = `<event>
+Blockly.JavaScript['event_nested'] = block => {
+  let statements_name = Blockly.JavaScript.statementToCode(block, 'EVENT_N');
+  let code = `<event>
 ${statements_name}</event>
 `;
   return code;
 };
 
-Blockly.JavaScript['text'] = function(block) {
-  var text_texttag = block.getFieldValue('textTag');
-  var code = `<text>${text_texttag}</text>
+Blockly.JavaScript['text'] = block => {
+  let text_texttag = block.getFieldValue('textTag');
+  let code = `<text>${text_texttag}</text>
 `;
   return code;
 };
 
-Blockly.JavaScript['event_load'] = function(block) {
-  var text_ldevent = block.getFieldValue('LDEVENT');
-  var code = `<event load="${text_ldevent.toUpperCase()}"/>
+Blockly.JavaScript['event_load'] = block => {
+  let text_ldevent = block.getFieldValue('LDEVENT');
+  let code = `<event load="${text_ldevent.toUpperCase()}"/>
 `
   return code;
 };
 
 Blockly.JavaScript['event_end'] = function(_block) {
-  var code = '<event/>\n';
+  let code = '<event/>\n';
   return code;
 };
 
-Blockly.JavaScript['event_list'] = function(block) {
-  var text_evlist_name = block.getFieldValue('EVLIST_NAME');
-  var statements_evlist = Blockly.JavaScript.statementToCode(block, 'EVLIST');
-  var code = `<eventList name="${text_evlist_name.toUpperCase()}">
+Blockly.JavaScript['event_list'] = block => {
+  let text_evlist_name = block.getFieldValue('EVLIST_NAME');
+  let statements_evlist = Blockly.JavaScript.statementToCode(block, 'EVLIST');
+  let code = `<eventList name="${text_evlist_name.toUpperCase()}">
 ${statements_evlist}</eventList>`;
   return code;
 };
 
-Blockly.JavaScript['choice_adv'] = function(block) {
-  var value_attributes = Blockly.JavaScript.valueToCode(block, 'ATTRIBUTES', Blockly.JavaScript.ORDER_ATOMIC);
-  var checkbox_hidd2 = block.getFieldValue('HIDD2') === 'TRUE';
-  var statements_choice = Blockly.JavaScript.statementToCode(block, 'CHOICE');
-  var checkbox_blue = block.getFieldValue('BLUE') === 'TRUE';
-  var code = '';
+Blockly.JavaScript['choice_adv'] = block => {
+  let value_attributes = Blockly.JavaScript.valueToCode(block, 'ATTRIBUTES', Blockly.JavaScript.ORDER_ATOMIC);
+  let checkbox_hidd2 = block.getFieldValue('HIDD2') === 'TRUE';
+  let statements_choice = Blockly.JavaScript.statementToCode(block, 'CHOICE');
+  let checkbox_blue = block.getFieldValue('BLUE') === 'TRUE';
+  let code = '';
   if (checkbox_blue&&checkbox_hidd2){
     code = `<choice hidden="${checkbox_hidd2}" blue="${!checkbox_blue}"${value_attributes}>
 ${statements_choice}</choice>
@@ -381,65 +381,65 @@ ${statements_choice}</choice>
   return code;
 };
 
-Blockly.JavaScript['attri_req'] = function(block) {
-  var text_req = block.getFieldValue('REQ');
-  var value_req1 = Blockly.JavaScript.valueToCode(block, 'REQ1', Blockly.JavaScript.ORDER_ATOMIC);
-  var code = ` req="${text_req}"${value_req1}`;
+Blockly.JavaScript['attri_req'] = block => {
+  let text_req = block.getFieldValue('REQ');
+  let value_req1 = Blockly.JavaScript.valueToCode(block, 'REQ1', Blockly.JavaScript.ORDER_ATOMIC);
+  let code = ` req="${text_req}"${value_req1}`;
   return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
 
-Blockly.JavaScript['attri_lvl'] = function(block) {
-  var number_lvl = block.getFieldValue('LVL');
-  var value_lvl1 = Blockly.JavaScript.valueToCode(block, 'LVL1', Blockly.JavaScript.ORDER_ATOMIC);
-  var code = ` lvl="${number_lvl}"${value_lvl1}`;
+Blockly.JavaScript['attri_lvl'] = block => {
+  let number_lvl = block.getFieldValue('LVL');
+  let value_lvl1 = Blockly.JavaScript.valueToCode(block, 'LVL1', Blockly.JavaScript.ORDER_ATOMIC);
+  let code = ` lvl="${number_lvl}"${value_lvl1}`;
   return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
 
-Blockly.JavaScript['attri_maxlvl'] = function(block) {
-  var number_max_lvl = block.getFieldValue('MAX_LVL');
-  var value_max = Blockly.JavaScript.valueToCode(block, 'MAX', Blockly.JavaScript.ORDER_ATOMIC);
-  var code = ` max_lvl="${number_max_lvl}"${value_max}`;
+Blockly.JavaScript['attri_maxlvl'] = block => {
+  let number_max_lvl = block.getFieldValue('MAX_LVL');
+  let value_max = Blockly.JavaScript.valueToCode(block, 'MAX', Blockly.JavaScript.ORDER_ATOMIC);
+  let code = ` max_lvl="${number_max_lvl}"${value_max}`;
   return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
 
-Blockly.JavaScript['attri_maxgp'] = function(block) {
-  var number_max_group = block.getFieldValue('MAX_GROUP');
-  var value_maxgrp = Blockly.JavaScript.valueToCode(block, 'MAXGRP', Blockly.JavaScript.ORDER_ATOMIC);
-  var code = ` max_group="${number_max_group}"${value_maxgrp}`;
+Blockly.JavaScript['attri_maxgp'] = block => {
+  let number_max_group = block.getFieldValue('MAX_GROUP');
+  let value_maxgrp = Blockly.JavaScript.valueToCode(block, 'MAXGRP', Blockly.JavaScript.ORDER_ATOMIC);
+  let code = ` max_group="${number_max_group}"${value_maxgrp}`;
   return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
 
 
-Blockly.JavaScript['text_list'] = function(block) {
-  var text_txlt_name = block.getFieldValue('TXLT_NAME');
-  var statements_txlist = Blockly.JavaScript.statementToCode(block, 'TXLIST');
-  var code = `<textList name="${text_txlt_name.toUpperCase()}">
+Blockly.JavaScript['text_list'] = block => {
+  let text_txlt_name = block.getFieldValue('TXLT_NAME');
+  let statements_txlist = Blockly.JavaScript.statementToCode(block, 'TXLIST');
+  let code = `<textList name="${text_txlt_name.toUpperCase()}">
 ${statements_txlist}</textList>
 `;
   return code;
 };
 
-Blockly.JavaScript['text_load'] = function(block) {
-  var text_txload = block.getFieldValue('TXLOAD');
-  var code = `<text load="${text_txload.toUpperCase()}"/>
+Blockly.JavaScript['text_load'] = block => {
+  let text_txload = block.getFieldValue('TXLOAD');
+  let code = `<text load="${text_txload.toUpperCase()}"/>
 `;
   return code;
 };
 
 
-Blockly.JavaScript['reward_auto'] = function(block) {
-  var dropdown_reward_level = block.getFieldValue('REWARD_LEVEL');
-  var dropdown_reward_type = block.getFieldValue('REWARD_TYPE');
-  var code = `<autoReward level="${dropdown_reward_level}">${dropdown_reward_type}</autoReward>
+Blockly.JavaScript['reward_auto'] = block => {
+  let dropdown_reward_level = block.getFieldValue('REWARD_LEVEL');
+  let dropdown_reward_type = block.getFieldValue('REWARD_TYPE');
+  let code = `<autoReward level="${dropdown_reward_level}">${dropdown_reward_type}</autoReward>
 `;
   return code;
 };
 
 
-Blockly.JavaScript['item_modify'] = function(block) {
-  var checkbox_item_steal = block.getFieldValue('ITEM_STEAL') === 'TRUE';
-  var statements_item_modify_childs = Blockly.JavaScript.statementToCode(block, 'ITEM_MODIFY_CHILDS');
-  var code;
+Blockly.JavaScript['item_modify'] = block => {
+  let checkbox_item_steal = block.getFieldValue('ITEM_STEAL') === 'TRUE';
+  let statements_item_modify_childs = Blockly.JavaScript.statementToCode(block, 'ITEM_MODIFY_CHILDS');
+  let code;
   if (checkbox_item_steal){
     code = `<item_modify steal="true">
 ${statements_item_modify_childs}</item_modify>
@@ -452,47 +452,47 @@ ${statements_item_modify_childs}</item_modify>
   return code;
 };
 
-Blockly.JavaScript['item'] = function(block) {
-  var dropdown_item_type = block.getFieldValue('ITEM_TYPE');
-  var number_item_max = block.getFieldValue('ITEM_MAX');
-  var number_item_min = block.getFieldValue('ITEM_MIN');
-  var code = `<item type="${dropdown_item_type}" min="${number_item_min}" max="${number_item_max}"/>
+Blockly.JavaScript['item'] = block => {
+  let dropdown_item_type = block.getFieldValue('ITEM_TYPE');
+  let number_item_max = block.getFieldValue('ITEM_MAX');
+  let number_item_min = block.getFieldValue('ITEM_MIN');
+  let code = `<item type="${dropdown_item_type}" min="${number_item_min}" max="${number_item_max}"/>
 `;
   return code;
 };
 
-Blockly.JavaScript['boarders'] = function(block) {
-  var number_min = block.getFieldValue('MIN');
-  var number_max = block.getFieldValue('MAX');
-  var text_race = block.getFieldValue('RACE');
-  var code = `<boarders min="${number_min}" max="${number_max}" class="${text_race}"/>
+Blockly.JavaScript['boarders'] = block => {
+  let number_min = block.getFieldValue('MIN');
+  let number_max = block.getFieldValue('MAX');
+  let text_race = block.getFieldValue('RACE');
+  let code = `<boarders min="${number_min}" max="${number_max}" class="${text_race}"/>
 `;
   return code;
 };
 
 
-Blockly.JavaScript['comment'] = function(block) {
-  var text_comt = block.getFieldValue('COMT');
-  var code = `<!--${text_comt}-->
+Blockly.JavaScript['comment'] = block => {
+  let text_comt = block.getFieldValue('COMT');
+  let code = `<!--${text_comt}-->
 `;
   return code;
 };
 
 function dynamicUpdater(_event) {
-  var allcode = Blockly.JavaScript.workspaceToCode(workspace);
+  let allcode = Blockly.JavaScript.workspaceToCode(workspace);
   document.getElementById('outputArea').value = allcode;
 }
 
 // function save(){
-//   var xml = Blockly.Xml.workspaceToDom(workspace);
-//   var xmlString = Blockly.Xml.domToPrettyText(xml);
+//   let xml = Blockly.Xml.workspaceToDom(workspace);
+//   let xmlString = Blockly.Xml.domToPrettyText(xml);
 //   document.getElementById('outputArea2').value = xmlString;
 // }
 
 // function load(){
 //   try{
-//     var input = document.getElementById('outputArea2').value
-//     var xml = Blockly.Xml.textToDom(input);
+//     let input = document.getElementById('outputArea2').value
+//     let xml = Blockly.Xml.textToDom(input);
 //     Blockly.Xml.domToWorkspace(xml,workspace);
 //   }catch(error){
 //     alert(error)
