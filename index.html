@@ -6,12 +6,14 @@
     <title>FTL Modding: Blocks Editor</title>
     <link rel="icon" type="image/png" sizes="32x32" href="./src/favicon_io/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="16x16" href="./src/favicon_io/favicon-32x32.png">
+    <link rel="stylesheet" href="indexStyle.css">
   </head>
   <body>
     <div id="root"></div>
+    <textarea id="eventEmuInput" rows="21" cols="90" placeholder="EMULATE EVENT HERE"></textarea>
     
     <div id="blocksAreasWrapper">
-      <div id="blocklyDiv" style="height: 980px; width: 900px;"></div>
+      <div id="blocklyDiv" ></div>
       <textarea id="outputArea" rows="61" placeholder="OUTPUT WILL DISPLAY HERE" readonly></textarea>
     </div>
     

@@ -1,0 +1,21 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+#blocksAreasWrapper{
+    display: flex;
+    align-items: center;
+    margin: 3rem;
+}
+textarea#outputArea{
+    width: 600px;
+    height: 912px;
+    border: 2px solid green;
+    resize: none;
+    margin-left: 10px;
+}
+#blocklyDiv{
+    height: 915px;
+    width: 800px;
+    border: 2px solid red;
+}
