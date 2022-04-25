@@ -1,9 +1,26 @@
-export const toolbox = {
+interface BlocklyToolboxBlock{
+  kind: "block",
+  type: string,
+  inputs?: object,
+}
+interface BlocklyToolboxCategory{
+  kind: string,
+  name: string,
+  colour?: number,
+  contents: Array<BlocklyToolboxBlock>,
+}
+interface BlocklyToolboxDef{
+  kind: string,
+  contents: Array<BlocklyToolboxCategory>,
+}
+
+export const toolbox: BlocklyToolboxDef = {
   kind: "categoryToolbox",
   contents: [
     {
       kind: "category",
       name: "Events",
+      colour: 230,
       contents: [
         {
           kind: "block",
@@ -34,6 +51,7 @@ export const toolbox = {
     {
       kind: "category",
       name: "Choices",
+      colour: 20,
       contents: [
         {
           kind: "block",
@@ -68,6 +86,7 @@ export const toolbox = {
     {
       kind: "category",
       name: "Rewards",
+      colour: 65,
       contents: [
         {
           kind: "block",
@@ -88,21 +107,59 @@ export const toolbox = {
           kind: "block",
           type: "item",
         },
+        
       ],
     },
     {
       kind: "category",
-      name: "Crew-related",
+      name: "Equipments",
+      colour: 90,
+      contents: [
+        {
+          kind: "block",
+          type: "reward_weapon",
+        },
+        {
+          kind: "block",
+          type: "reward_augment",
+        },
+        {
+          kind: "block",
+          type: "reward_drone",
+        },
+        {
+          kind: "block",
+          type: "remove",
+        },
+      ]
+    },
+    {
+      kind: "category",
+      name: "Crew",
+      colour: 160,
       contents: [
         {
           kind: "block",
           type: "boarders",
+        },
+        {
+          kind: "block",
+          type: "crew_member",
+        },
+        {
+          kind: "block",
+          type: "attri_crew_skill",
+        },
+        {
+          kind: "block",
+          type: "remove_crew",
         },
       ],
     },
     {
       kind: "category",
       name: "Others",
+      colour: 120,
       contents: [
         {
           kind: "block",
