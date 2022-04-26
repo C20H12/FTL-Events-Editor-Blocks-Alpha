@@ -6,7 +6,7 @@
     <title>FTL Modding: Blocks Editor</title>
     <link rel="icon" type="image/png" sizes="32x32" href="./src/favicon_io/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="16x16" href="./src/favicon_io/favicon-32x32.png">
-    <link rel="stylesheet" href="indexStyle.css">
+    <link rel="stylesheet" href="./src/indexStyle.css">
   </head>
   <body>
     <div id="root"></div>
@@ -15,6 +15,9 @@
     <div id="blocksAreasWrapper">
       <div id="blocklyDiv" ></div>
       <textarea id="outputArea" rows="61" placeholder="OUTPUT WILL DISPLAY HERE" readonly></textarea>
+      <button id="saveAsBlocks">SAVE BLOCKS WORKSPACE</button>
+      <button id="saveOutput">SAVE XML OUTPUT</button>
+      <input type="file" id="loadBlocks">
     </div>
     
     <script type="module" src="./src/blockDefinitions.js"></script>

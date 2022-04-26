@@ -654,7 +654,416 @@ Blockly.JavaScript['remove_crew'] = block => {
 // SHIP RELATED CATEGORY---------
 // -------------------------------
 
+Blockly.Blocks['damage'] = {
+  init() {
+    this.appendValueInput("DAMAGE_ATTRIBUTES")
+        .setCheck(null)
+        .appendField("<damage> amount:")
+        .appendField(new Blockly.FieldNumber(0, -Infinity, Infinity, 1), "DAMAGE_AMOUNT");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setInputsInline(false);
+    this.setColour(260);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
 
+Blockly.Blocks['attri_damage_system'] = {
+  init() {
+    this.appendValueInput("DAMAGE_EFF")
+        .setCheck(null)
+        .appendField("system:")
+        .appendField(new Blockly.FieldDropdown([
+          ["shields","shields"], 
+          ["weapons","weapons"], 
+          ["engines","engines"], 
+          ["medbay", "medbay"], 
+          ["clonebay", "clonebay"], 
+          ["oxygen", "oxygen"], 
+          ["telepporter", "telepporter"], 
+          ["drones", "drones"], 
+          ["cloaking", "cloaking"], 
+          ["artillery", "artillery"], 
+          ["hacking", "hacking"], 
+          ["mind", "mind"], 
+          ["pilot","pilot"], 
+          ["sensors", "sensors"], 
+          ["doors", "doors"], 
+          ["battery", "battery"],
+          ["sys-less room", "room"],
+          ["random", "random"],
+        ]), "DAMAGE_ROOM");
+    this.setOutput(true, null);
+    this.setColour(330);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }  
+};
+
+Blockly.Blocks['attri_damage_effect'] = {
+  init() {
+    this.appendValueInput("DAMAGE_SYS")
+        .setCheck(null)
+        .appendField("extra effect:")
+        .appendField(new Blockly.FieldDropdown([
+          ["fire","fire"], 
+          ["breach","breach"], 
+          ["all","all"], 
+          ["random","random"], 
+        ]), "DAMAGE_EFFECT");
+    this.setOutput(true, null);
+    this.setColour(330);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+}
+
+Blockly.Blocks['status'] = {
+  init() {
+    this.appendDummyInput()
+        .appendField("<status> type:")
+        .appendField(new Blockly.FieldDropdown([
+          ["loss","loss"], 
+          ["divide","divide"], 
+          ["limit","limit"], 
+          ["clear", "clear"], 
+        ]), "STATUS_TYPE")
+        .appendField("target:")
+        .appendField(new Blockly.FieldDropdown([
+          ["player","player"], 
+          ["enemy","enemy"], 
+          ["all","all"], 
+        ]), "STATUS_TARGET")
+        .appendField("system:")
+        .appendField(new Blockly.FieldDropdown([
+          ["shields","shields"], 
+          ["weapons","weapons"], 
+          ["engines","engines"], 
+          ["medbay", "medbay"], 
+          ["clonebay", "clonebay"], 
+          ["oxygen", "oxygen"], 
+          ["telepporter", "telepporter"], 
+          ["drones", "drones"], 
+          ["cloaking", "cloaking"], 
+          ["artillery", "artillery"], 
+          ["hacking", "hacking"], 
+          ["mind", "mind"], 
+          ["pilot","pilot"], 
+          ["sensors", "sensors"], 
+          ["doors", "doors"], 
+          ["battery", "battery"],
+        ]), "STATUS_ROOM")
+        .appendField("amount:")
+        .appendField(new Blockly.FieldNumber(0, 0, Infinity, 1), "STATUS_AMOUNT");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(260);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['upgrade'] = {
+  init() {
+    this.appendDummyInput()
+        .appendField("<upgrade> amount:")
+        .appendField(new Blockly.FieldNumber(0, 0, Infinity, 1), "UPG_AMOUNT")
+        .appendField("system:")
+        .appendField(new Blockly.FieldDropdown([
+          ["shields","shields"], 
+          ["weapons","weapons"], 
+          ["engines","engines"], 
+          ["medbay", "medbay"], 
+          ["clonebay", "clonebay"], 
+          ["oxygen", "oxygen"], 
+          ["telepporter", "telepporter"], 
+          ["drones", "drones"], 
+          ["cloaking", "cloaking"], 
+          ["artillery", "artillery"], 
+          ["hacking", "hacking"], 
+          ["mind", "mind"], 
+          ["pilot","pilot"], 
+          ["sensors", "sensors"], 
+          ["doors", "doors"], 
+          ["battery", "battery"],
+        ]), "UPG_SYS");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(260);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['system'] = {
+  init() {
+    this.appendDummyInput()
+        .appendField("<system> name:")
+        .appendField(new Blockly.FieldDropdown([
+          ["shields","shields"], 
+          ["weapons","weapons"], 
+          ["engines","engines"], 
+          ["medbay", "medbay"], 
+          ["clonebay", "clonebay"], 
+          ["oxygen", "oxygen"], 
+          ["telepporter", "telepporter"], 
+          ["drones", "drones"], 
+          ["cloaking", "cloaking"], 
+          ["artillery", "artillery"], 
+          ["hacking", "hacking"], 
+          ["mind", "mind"], 
+          ["pilot","pilot"], 
+          ["sensors", "sensors"], 
+          ["doors", "doors"], 
+          ["battery", "battery"],
+        ]), "SYSTEM_SYS");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(260);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
+
+// generators-------
+
+Blockly.JavaScript['damage'] = block => {
+  let number_dmg_amount = block.getFieldValue("DAMAGE_AMOUNT");
+  let value_dmg_attributes = Blockly.JavaScript.valueToCode(block, 'DAMAGE_ATTRIBUTES', Blockly.JavaScript.ORDER_ATOMIC);
+  let code = `<damage amount="${number_dmg_amount}" ${value_dmg_attributes}/>`;
+  return code;
+};
+
+Blockly.JavaScript['attri_damage_system'] = block => {
+  let dropdown_damage_room = block.getFieldValue("DAMAGE_ROOM");
+  let value_more_attributes = Blockly.JavaScript.valueToCode(block, 'DAMAGE_EFF', Blockly.JavaScript.ORDER_ATOMIC);
+  let code = `system="${dropdown_damage_room}" ${value_more_attributes}`;
+  return [code, Blockly.JavaScript.ORDER_ATOMIC];
+};
+
+Blockly.JavaScript['attri_damage_effect'] = block => {
+  let dropdown_damage_eff = block.getFieldValue("DAMAGE_EFFECT");
+  let value_more_attributes = Blockly.JavaScript.valueToCode(block, 'DAMAGE_SYS', Blockly.JavaScript.ORDER_ATOMIC);
+  let code = `system="${dropdown_damage_eff}" ${value_more_attributes}`;
+  return [code, Blockly.JavaScript.ORDER_ATOMIC];
+};
+
+Blockly.JavaScript['status'] = block => {
+  let dropdown_type = block.getFieldValue('STATUS_TYPE');
+  let dropdown_target = block.getFieldValue('STATUS_TARGET');
+  let dropdown_sys = block.getFieldValue('STATUS_ROOM');
+  let number_amount = block.getFieldValue('STATUS_AMOUNT')
+  let code = `<status type="${dropdown_type}" target="${dropdown_target}" system="${dropdown_sys}" amount="${number_amount}"/>\n`;
+  return code;
+};
+
+Blockly.JavaScript['upgrade'] = block => {
+  let number_upg_amount = block.getFieldValue('UPG_AMOUNT');
+  let dropdown_upg_sys = block.getFieldValue('UPG_SYS');
+  let code = `<upgrade amount="${number_upg_amount}" system="${dropdown_upg_sys}"/>\n`;
+  return code;
+};
+
+Blockly.JavaScript['system'] = block => {
+  let dropdown_sys_sys = block.getFieldValue('SYSTEM_SYS');
+  let code = `<system name="${dropdown_sys_sys}"/>\n`;
+  return code;
+};
+
+
+
+// -------------------------------
+// MAP RELATED CATEGORY---------
+// -------------------------------
+
+Blockly.Blocks['distress_beacon'] = {
+  init() {
+    this.appendDummyInput()
+        .appendField("<distressBeacon>");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(300);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['reveal_map'] = {
+  init() {
+    this.appendDummyInput()
+        .appendField("<reveal_map>");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(300);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['modify_pursuit'] = {
+  init() {
+    this.appendDummyInput()
+        .appendField("<modifyPursuit> amount:")
+        .appendField(new Blockly.FieldNumber(0, 0, Infinity, 1), "PURSUIT_AMOUNT");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(300);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['store'] = {
+  init() {
+    this.appendDummyInput()
+        .appendField("<store> store name:")
+        .appendField(new Blockly.FieldTextInput("STORE_STANDARD"), "STORE");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(300);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['quest'] = {
+  init() {
+    this.appendDummyInput()
+        .appendField("<quest> event:")
+        .appendField(new Blockly.FieldTextInput("EVENT_NAME"), "QUEST_EVT");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(300);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
+
+// generators----------
+Blockly.JavaScript['distress_beacon'] = _block => {
+  let code = `<distressBeacon />\n`;
+  return code;
+};
+
+Blockly.JavaScript['reveal_map'] = _block => {
+  let code = `<reveal_map />\n`;
+  return code;
+};
+
+Blockly.JavaScript['modify_pursuit'] = block => {
+  let number_pursuit_amt = block.getFieldValue('PURSUIT_AMOUNT');
+  let code = `<modifyPursuit amount="${number_pursuit_amt}">\n`;
+  return code;
+};
+
+Blockly.JavaScript['store'] = block => {
+  let text_store_name = block.getFieldValue('STORE');
+  let code = `<store>${text_store_name}</store>\n`;
+  return code;
+};
+
+Blockly.JavaScript['quest'] = block => {
+  let text_questevent = block.getFieldValue('QUEST_EVT');
+  let code = `<quest event="${text_questevent}">\n`;
+  return code;
+};
+
+
+
+// -------------------------------
+// BACKGROUND OBJECTS CATEGORY---------
+// -------------------------------
+
+Blockly.Blocks['environment'] = {
+  init() {
+    this.appendDummyInput()
+        .appendField("<environment> type:")
+        .appendField(new Blockly.FieldDropdown([
+          ["sun","sun"], 
+          ["nebula","nebula"], 
+          ["plasma storm","storm"], 
+          ["pulsar", "pulsar"], 
+          ["asteroid", "asteroid"],
+          ["ASB", "PDS"]
+        ]), "ENV_TYPE")
+        .appendField("target (only for asb):")
+        .appendField(new Blockly.FieldDropdown([
+          ["player","player"], 
+          ["enemy","enemy"], 
+          ["all","all"], 
+        ]), "ENV_TARGET");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(200);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['img'] = {
+  init() {
+    this.appendDummyInput()
+        .appendField("<img> back:")
+        .appendField(new Blockly.FieldTextInput("BACKGROUND_NAME"), "IMG_BG")
+        .appendField("planet:")
+        .appendField(new Blockly.FieldTextInput("PLANET_NONE"), "IMG_PLT");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(200);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['custom_fleet'] = {
+  init() {
+    this.appendDummyInput()
+        .appendField("<customFleet> face right?")
+        .appendField(new Blockly.FieldCheckbox("FALSE"), "FLEET_R")
+        .appendField("fire asb?")
+        .appendField(new Blockly.FieldCheckbox("TRUE"), "FLEET_FIRE")
+        .appendField("auto darken?")
+        .appendField(new Blockly.FieldCheckbox("TRUE"), "FLEET_DARK")
+    this.appendDummyInput()
+        .appendField("fleet name:")
+        .appendField(new Blockly.FieldTextInput("CUSTOM_FLEET"), "FLEET_NAME");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(200);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
+
+// generators----------
+Blockly.JavaScript['environment'] = block => {
+  let dropdown_envtype = block.getFieldValue('ENV_TYPE');
+  let dropdown_envtarget = block.getFieldValue('ENV_TARGET')
+  let code;
+  if (dropdown_envtype=="PDS"){
+    code = `<environment type="${dropdown_envtype}" target="${dropdown_envtarget}">\n`;
+  }else{
+    code = `<environment type="${dropdown_envtype}">\n`;
+  }
+  return code;
+};
+
+Blockly.JavaScript['img'] = block => {
+  let text_bg = block.getFieldValue('IMG_BG');
+  let text_planet = block.getFieldValue('IMG_PLT')
+  let code = `<img back="${text_bg}" planet="${text_planet}">\n`;
+  return code;
+};
+
+Blockly.JavaScript['custom_fleet'] = block => {
+  let checkbox_right = block.getFieldValue('FLEET_R').toLowerCase();
+  let checkbox_fire = block.getFieldValue("FLEET_FIRE").toLowerCase();
+  let checkbox_dark = block.getFieldValue('FLEET_DARK').toLowerCase();
+  let text_fleet_name = block.getFieldValue("FLEET_NAME")
+  let code = `<customFleet right="${checkbox_right}" firing="${checkbox_fire}" autoDarkening="${checkbox_dark}">\n  ${text_fleet_name}\n</customFleet>\n`;;
+  return code;
+};
 
 
 
@@ -682,32 +1091,55 @@ Blockly.JavaScript['comment'] = block => {
 
 //==================================================================
 //injection----------------------------------------------------------
-import { toolbox } from "./toolbox.ts";
+import { toolbox } from "./toolbox";
 const workspace = Blockly.inject('blocklyDiv',  {toolbox: toolbox});
 
 
 
 
-
+// real time update handler
 function dynamicUpdater(_event) {
   let allcode = Blockly.JavaScript.workspaceToCode(workspace);
   document.getElementById('outputArea').value = allcode;
 }
 workspace.addChangeListener(dynamicUpdater);
 
-// function save(){
-//   let xml = Blockly.Xml.workspaceToDom(workspace);
-//   let xmlString = Blockly.Xml.domToPrettyText(xml);
-//   document.getElementById('outputArea2').value = xmlString;
-// }
 
-// function load(){
-//   try{
-//     let input = document.getElementById('outputArea2').value
-//     let xml = Blockly.Xml.textToDom(input);
-//     Blockly.Xml.domToWorkspace(xml,workspace);
-//   }catch(error){
-//     alert(error)
-//   }
-// }
 
+// saving and loading handlers
+function saveFile(fileName,urlFile){
+  const a = document.createElement("a");
+  a.style = "display: none";
+  document.body.appendChild(a);
+  a.href = urlFile;
+  a.download = fileName;
+  a.click();
+  window.URL.revokeObjectURL(urlFile);
+  a.remove();
+}
+
+document.querySelector("#saveAsBlocks").addEventListener("click", ()=>{
+  const xml = Blockly.Xml.workspaceToDom(workspace);
+  const xmlString = Blockly.Xml.domToPrettyText(xml);
+
+  const blobData = new Blob([xmlString], {type: "text/xml"});
+  const blobUrl = window.URL.createObjectURL(blobData);
+  saveFile("blocks_workspace.xml", blobUrl);
+});
+
+document.querySelector("#saveOutput").addEventListener("click", ()=>{
+  const outputXmlString = document.querySelector("#outputArea").value || "<empty/>";
+
+  const blobData = new Blob([outputXmlString], {type: "text/xml"});
+  const blobUrl = window.URL.createObjectURL(blobData);
+  saveFile("events_generated.xml.append", blobUrl);
+});
+
+document.querySelector("#loadBlocks").addEventListener("change", async (event)=>{
+  const file = event.target.files.item(0)
+  const text = await file.text();
+  
+  let xml = Blockly.Xml.textToDom(text);
+  Blockly.Xml.domToWorkspace(xml,workspace);
+  document.querySelector("#loadBlocks").value = "";
+});

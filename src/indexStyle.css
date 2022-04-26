@@ -1,0 +1,37 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+#blocksAreasWrapper {
+  display: grid;
+  grid-template-columns: 800px 800px;
+  margin: 3rem;
+}
+textarea#outputArea {
+  height: 912px;
+  border: 2px solid green;
+  resize: none;
+  margin: 0 20% 0 10px;
+}
+#blocklyDiv {
+  height: 915px;
+  border: 2px solid red;
+}
+
+#saveAsBlocks,#saveOutput,#loadBlocks {
+  padding: 20px 100px 20px 100px;
+  margin: auto;
+  border: 2px solid orange;
+  text-align: center;
+}
+#saveAsBlocks:hover,#saveOutput:hover {
+  background-color: rgb(255, 206, 114);
+}
+
+#loadBlocks::after{
+  content: "LOAD BLOCK WORKSPACE";
+  position: relative;
+  right: 150px;
+  bottom: 20px;
+  border-bottom: 1px dotted black;
+}

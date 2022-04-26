@@ -158,6 +158,83 @@ export const toolbox: BlocklyToolboxDef = {
     },
     {
       kind: "category",
+      name: "Ship",
+      colour: 260,
+      contents: [
+        {
+          kind: "block",
+          type: "damage",
+        },
+        {
+          kind: "block",
+          type: "attri_damage_system",
+        },
+        {
+          kind: "block",
+          type: "attri_damage_effect",
+        },
+        {
+          kind: "block",
+          type: "status",
+        },
+        {
+          kind: "block",
+          type: "upgrade",
+        },
+        {
+          kind: "block",
+          type: "system",
+        },
+      ],
+    },
+    {
+      kind: "category",
+      name: "Map",
+      colour: 300,
+      contents: [
+        {
+          kind: "block",
+          type: "distress_beacon",
+        },
+        {
+          kind: "block",
+          type: "reveal_map",
+        },
+        {
+          kind: "block",
+          type: "modify_pursuit",
+        },
+        {
+          kind: "block",
+          type: "store",
+        },
+        {
+          kind: "block",
+          type: "quest",
+        },
+      ],
+    },
+    {
+      kind: "category",
+      name: "Background",
+      colour: 200,
+      contents: [
+        {
+          kind: "block",
+          type: "environment",
+        },
+        {
+          kind: "block",
+          type: "img",
+        },
+        {
+          kind: "block",
+          type: "custom_fleet",
+        },
+      ]
+    },
+    {
+      kind: "category",
       name: "Others",
       colour: 120,
       contents: [
