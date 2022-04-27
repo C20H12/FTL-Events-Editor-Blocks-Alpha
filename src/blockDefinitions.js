@@ -11,7 +11,7 @@ Blockly.Blocks['event'] = {
         .appendField("Unique?")
         .appendField(new Blockly.FieldCheckbox("FALSE"), "UNIQ");
     this.appendStatementInput("EVENT_CHILDS")
-        .setCheck(null);
+        .setCheck("allowed_event_childs");
     this.setColour(230);
     this.setTooltip("FTL Event Declaration");
     this.setHelpUrl("https://docs.google.com/document/d/1N2Nlfr-bMiKlABjVQboRg_MIec-BvQRp-_9VHN6wGgE/edit#heading=h.7cnvp7x7fika");
@@ -25,9 +25,9 @@ Blockly.Blocks['choice'] = {
         .appendField("Hidden?")
         .appendField(new Blockly.FieldCheckbox("TRUE"), "hidden");
     this.appendStatementInput("CHOICE_S")
-        .setCheck(null);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+        .setCheck("allowed_choice_childs");
+    this.setPreviousStatement(true, "allowed_event_childs");
+    this.setNextStatement(true, "allowed_event_childs");
     this.setColour(20);
     this.setTooltip("");
     this.setHelpUrl("");
@@ -41,31 +41,9 @@ Blockly.Blocks['event_nested'] = {
         .appendField("(nested)");
     this.appendStatementInput("EVENT_N")
         .setCheck(null);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, ["allowed_choice_childs", "allowed_eventList_childs"]);
+    this.setNextStatement(true, ["allowed_choice_childs", "allowed_eventList_childs"]);
     this.setColour(230);
-    this.setTooltip("");
-    this.setHelpUrl("");
-  }
-};
-
-Blockly.Blocks['text'] = {
-  init() {
-    const validate = (text) => {
-      if (text.includes("cant")) {
-        return this.setWarningText('Error: can\'tina');
-      } else if(text.includes("kitty")){
-        return this.setWarningText("Error: Catbot Vance")
-      }else {
-        return this.setWarningText(null);
-      }
-    };
-    this.appendDummyInput()
-        .appendField("<text>")
-        .appendField(new Blockly.FieldTextInput("Insert your text here!", validate), "textTag");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(120);
     this.setTooltip("");
     this.setHelpUrl("");
   }
@@ -76,8 +54,8 @@ Blockly.Blocks['event_load'] = {
     this.appendDummyInput()
         .appendField("<event> Load")
         .appendField(new Blockly.FieldTextInput("EVENT_NAME"), "LDEVENT");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true,null);
+    this.setPreviousStatement(true, "allowed_choice_childs");
+    this.setNextStatement(true, "allowed_choice_childs");
     this.setColour(230);
     this.setTooltip("");
     this.setHelpUrl("");
@@ -88,7 +66,7 @@ Blockly.Blocks['event_end'] = {
   init() {
     this.appendDummyInput()
         .appendField("<event/>");
-    this.setPreviousStatement(true, null);
+    this.setPreviousStatement(true, "allowed_choice_childs");
     this.setColour(230);
     this.setTooltip("");
     this.setHelpUrl("");
@@ -101,7 +79,7 @@ Blockly.Blocks['event_list'] = {
         .appendField("<eventList> Name")
         .appendField(new Blockly.FieldTextInput("LIST_NAME"), "EVLIST_NAME");
     this.appendStatementInput("EVLIST")
-        .setCheck(null);
+        .setCheck("allowed_choice_childs");
     this.setColour(230);
     this.setTooltip("");
     this.setHelpUrl("");
@@ -138,13 +116,7 @@ Blockly.JavaScript['event_nested'] = block => {
   let statements_name = Blockly.JavaScript.statementToCode(block, 'EVENT_N');
   let code = `<event>\n${statements_name}</event>\n`;
   return code;
-};
-
-Blockly.JavaScript['text'] = block => {
-  let text_texttag = block.getFieldValue('textTag');
-  let code = `<text>${text_texttag}</text>\n`;
-  return code;
-};
+}
 
 Blockly.JavaScript['event_load'] = block => {
   let text_ldevent = block.getFieldValue('LDEVENT');
@@ -173,17 +145,17 @@ Blockly.JavaScript['event_list'] = block => {
 Blockly.Blocks['choice_adv'] = {
   init() {
     this.appendValueInput("ATTRIBUTES")
-        .setCheck(null)
+        .setCheck("allowed_choice_attributes")
         .appendField("<choice>")
         .appendField("Hidden?")
         .appendField(new Blockly.FieldCheckbox("TRUE"), "HIDD2");
     this.appendStatementInput("CHOICE")
-        .setCheck(null);
+        .setCheck("allowed_choice_childs");
     this.appendDummyInput()
         .appendField("No Blue?")
         .appendField(new Blockly.FieldCheckbox("FALSE"), "BLUE");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, "allowed_event_childs");
+    this.setNextStatement(true, "allowed_event_childs");
     this.setColour(20);
     this.setTooltip("");
     this.setHelpUrl("");
@@ -193,10 +165,10 @@ Blockly.Blocks['choice_adv'] = {
 Blockly.Blocks['attri_req'] = {
   init() {
     this.appendValueInput("REQ1")
-        .setCheck(null)
+        .setCheck("allowed_choice_attributes")
         .appendField("Require")
         .appendField(new Blockly.FieldTextInput("ITEM_ID"), "REQ");
-    this.setOutput(true, null);
+    this.setOutput(true, "allowed_choice_attributes");
     this.setColour(330);
     this.setTooltip("");
     this.setHelpUrl("");
@@ -206,10 +178,10 @@ Blockly.Blocks['attri_req'] = {
 Blockly.Blocks['attri_lvl'] = {
   init() {
     this.appendValueInput("LVL1")
-        .setCheck(null)
+        .setCheck("allowed_choice_attributes")
         .appendField("Level")
         .appendField(new Blockly.FieldNumber(0), "LVL");
-    this.setOutput(true, null);
+    this.setOutput(true, "allowed_choice_attributes");
     this.setColour(330);
     this.setTooltip("");
     this.setHelpUrl("");
@@ -219,10 +191,10 @@ Blockly.Blocks['attri_lvl'] = {
 Blockly.Blocks['attri_maxlvl'] = {
   init() {
     this.appendValueInput("MAX")
-        .setCheck(null)
+        .setCheck("allowed_choice_attributes")
         .appendField("Max Level")
         .appendField(new Blockly.FieldNumber(0), "MAX_LVL");
-    this.setOutput(true, null);
+    this.setOutput(true, "allowed_choice_attributes");
     this.setColour(330);
     this.setTooltip("");
     this.setHelpUrl("");
@@ -232,10 +204,10 @@ Blockly.Blocks['attri_maxlvl'] = {
 Blockly.Blocks['attri_maxgp'] = {
   init() {
     this.appendValueInput("MAXGRP")
-        .setCheck(null)
+        .setCheck("allowed_choice_attributes")
         .appendField("Max Group")
         .appendField(new Blockly.FieldNumber(0), "MAX_GROUP");
-    this.setOutput(true, null);
+    this.setOutput(true, "allowed_choice_attributes");
     this.setColour(330);
     this.setTooltip("");
     this.setHelpUrl("");
@@ -295,13 +267,61 @@ Blockly.JavaScript['attri_maxgp'] = block => {
 // TEXT RELATED CATEGORY---------
 // -------------------------------
 
+Blockly.Blocks['text'] = {
+  init() {
+    const validate = (text) => {
+      if (text.includes("cant")) {
+        return this.setWarningText('Error: can\'tina');
+      } else if(text.includes("kitty")){
+        return this.setWarningText("Error: Catbot Vance")
+      }else {
+        return this.setWarningText(null);
+      }
+    };
+    this.appendDummyInput()
+        .appendField("<text>")
+        .appendField(new Blockly.FieldTextInput("Insert your EVENT text here!", validate), "textTag");
+    this.setPreviousStatement(true, "allowed_event_childs");
+    this.setNextStatement(true, "allowed_event_childs");
+    this.setColour(120);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['text_choice'] = {
+  init() {
+    this.appendDummyInput()
+        .appendField("<text>")
+        .appendField(new Blockly.FieldTextInput("Insert your CHOICE text here!"), "textTag");
+    this.setPreviousStatement(true, "allowed_choice_childs");
+    this.setNextStatement(true, "allowed_choice_childs");
+    this.setColour(120);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['text_txlist'] = {
+  init() {
+    this.appendDummyInput()
+        .appendField("<text>")
+        .appendField(new Blockly.FieldTextInput("Insert your TEXTLIST text here!"), "textTag");
+    this.setPreviousStatement(true, "allowed_text");
+    this.setNextStatement(true, "allowed_text");
+    this.setColour(120);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
+
 Blockly.Blocks['text_list'] = {
   init() {
     this.appendDummyInput()
         .appendField("<textList> Name")
         .appendField(new Blockly.FieldTextInput("TEXT_LIST_NAME"), "TXLT_NAME");
     this.appendStatementInput("TXLIST")
-        .setCheck(null);
+        .setCheck("allowed_text");
     this.setColour(120);
     this.setTooltip("");
     this.setHelpUrl("");
@@ -313,8 +333,21 @@ Blockly.Blocks['text_load'] = {
     this.appendDummyInput()
         .appendField("<text> Load")
         .appendField(new Blockly.FieldTextInput("TEXT_LIST_NAME"), "TXLOAD");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, "allowed_event_childs");
+    this.setNextStatement(true, "allowed_event_childs");
+    this.setColour(120);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['text_load_choice'] = {
+  init() {
+    this.appendDummyInput()
+        .appendField("<text> Load")
+        .appendField(new Blockly.FieldTextInput("TEXT_LIST_NAME"), "TXLOAD");
+    this.setPreviousStatement(true, "allowed_choice_childs");
+    this.setNextStatement(true, "allowed_choice_childs");
     this.setColour(120);
     this.setTooltip("");
     this.setHelpUrl("");
@@ -322,6 +355,24 @@ Blockly.Blocks['text_load'] = {
 };
 
 // generators--------------------
+Blockly.JavaScript['text'] = block => {
+  let text_texttag = block.getFieldValue('textTag');
+  let code = `<text>${text_texttag}</text>\n`;
+  return code;
+};
+
+Blockly.JavaScript['text_choice'] = block => {
+  let text_texttag = block.getFieldValue('textTag');
+  let code = `<text>${text_texttag}</text>\n`;
+  return code;
+};
+
+Blockly.JavaScript['text_txlist'] = block => {
+  let text_texttag = block.getFieldValue('textTag');
+  let code = `<text>${text_texttag}</text>\n`;
+  return code;
+};
+
 Blockly.JavaScript['text_list'] = block => {
   let text_txlt_name = block.getFieldValue('TXLT_NAME');
   let statements_txlist = Blockly.JavaScript.statementToCode(block, 'TXLIST');
@@ -330,6 +381,12 @@ Blockly.JavaScript['text_list'] = block => {
 };
 
 Blockly.JavaScript['text_load'] = block => {
+  let text_txload = block.getFieldValue('TXLOAD');
+  let code = `<text load="${text_txload.toUpperCase()}"/>\n`;
+  return code;
+};
+
+Blockly.JavaScript['text_load_choice'] = block => {
   let text_txload = block.getFieldValue('TXLOAD');
   let code = `<text load="${text_txload.toUpperCase()}"/>\n`;
   return code;
@@ -367,8 +424,8 @@ Blockly.Blocks['reward_auto'] = {
           ["drone","drone"], 
           ["augment","augment"]
         ]), "REWARD_TYPE");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, "allowed_event_childs");
+    this.setNextStatement(true, "allowed_event_childs");
     this.setColour(65);
     this.setTooltip("");
     this.setHelpUrl("");
@@ -381,9 +438,9 @@ Blockly.Blocks['item_modify'] = {
         .appendField("<item_modify> Steal?")
         .appendField(new Blockly.FieldCheckbox("FALSE"), "ITEM_STEAL");
     this.appendStatementInput("ITEM_MODIFY_CHILDS")
-        .setCheck(null);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+        .setCheck("allowed_item_childs");
+    this.setPreviousStatement(true, "allowed_event_childs");
+    this.setNextStatement(true, "allowed_event_childs");
     this.setColour(65);
     this.setTooltip("");
     this.setHelpUrl("");
@@ -404,8 +461,8 @@ Blockly.Blocks['item'] = {
         .appendField(new Blockly.FieldNumber(0, -Infinity, Infinity, 1), "ITEM_MIN")
         .appendField("max:")
         .appendField(new Blockly.FieldNumber(0, -Infinity, Infinity, 1), "ITEM_MAX");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, "allowed_item_childs");
+    this.setNextStatement(true, "allowed_item_childs");
     this.setColour(65);
     this.setTooltip("");
     this.setHelpUrl("");
@@ -443,8 +500,8 @@ Blockly.Blocks['reward_weapon'] = {
     this.appendDummyInput()
         .appendField("<weapon> name")
         .appendField(new Blockly.FieldTextInput("WEP_ITEM_ID"), "WEAPON_NAME");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, "allowed_event_childs");
+    this.setNextStatement(true, "allowed_event_childs");
     this.setColour(90);
     this.setTooltip("");
     this.setHelpUrl("");
@@ -456,8 +513,8 @@ Blockly.Blocks['reward_augment'] = {
     this.appendDummyInput()
         .appendField("<augment> name")
         .appendField(new Blockly.FieldTextInput("AUG_ITEM_ID"), "AUG_NAME");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, "allowed_event_childs");
+    this.setNextStatement(true, "allowed_event_childs");
     this.setColour(90);
     this.setTooltip("");
     this.setHelpUrl("");
@@ -469,8 +526,8 @@ Blockly.Blocks['reward_drone'] = {
     this.appendDummyInput()
         .appendField("<drone> name")
         .appendField(new Blockly.FieldTextInput("DRN_ITEM_ID"), "DRONE_NAME");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, "allowed_event_childs");
+    this.setNextStatement(true, "allowed_event_childs");
     this.setColour(90);
     this.setTooltip("");
     this.setHelpUrl("");
@@ -482,8 +539,8 @@ Blockly.Blocks['remove'] = {
     this.appendDummyInput()
         .appendField("<remove> name")
         .appendField(new Blockly.FieldTextInput("ITEM_ID"), "REMOVE_NAME");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, "allowed_event_childs");
+    this.setNextStatement(true, "allowed_event_childs");
     this.setColour(90);
     this.setTooltip("");
     this.setHelpUrl("");
@@ -539,8 +596,8 @@ Blockly.Blocks['boarders'] = {
         .appendField(new Blockly.FieldNumber(0, -Infinity, Infinity, 1), "MAX")
         .appendField("race:")
         .appendField(new Blockly.FieldTextInput("random"), "RACE");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, "allowed_event_childs");
+    this.setNextStatement(true, "allowed_event_childs");
     this.setColour(160);
     this.setTooltip("");
     this.setHelpUrl("");
@@ -550,7 +607,7 @@ Blockly.Blocks['boarders'] = {
 Blockly.Blocks['crew_member'] = {
   init() {
     this.appendValueInput("CREW_SKILLS")
-        .setCheck(null)
+        .setCheck("allowed_attribute_crew")
         .appendField("<crewMember> amount:")
         .appendField(new Blockly.FieldNumber(0, -1, Infinity, 1), "AMOUNT")
         .appendField("race:")
@@ -558,8 +615,8 @@ Blockly.Blocks['crew_member'] = {
     this.appendDummyInput()
         .appendField("default name:")
         .appendField(new Blockly.FieldTextInput("none"), "CREW_NAME");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, "allowed_event_childs");
+    this.setNextStatement(true, "allowed_event_childs");
     this.setInputsInline(false);
     this.setColour(160);
     this.setTooltip("");
@@ -582,7 +639,7 @@ Blockly.Blocks['attri_crew_skill'] = {
         ]), "SKILL_AREA")
         .appendField("skill lvl:")
         .appendField(new Blockly.FieldNumber(0, 0, 2, 1), "SKILL_LVL");
-    this.setOutput(true, null);
+    this.setOutput(true, "allowed_attribute_crew");
     this.setColour(330);
     this.setTooltip("");
     this.setHelpUrl("");
@@ -599,8 +656,8 @@ Blockly.Blocks['remove_crew'] = {
         .appendField(new Blockly.FieldCheckbox("TRUE"), "CLONE")
         .appendField("text:")
         .appendField(new Blockly.FieldTextInput("Your clonebay worked / didn't work."), "CLONE_TEXT");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, "allowed_event_childs");
+    this.setNextStatement(true, "allowed_event_childs");
     this.setColour(160);
     this.setTooltip("");
     this.setHelpUrl("");
@@ -658,11 +715,11 @@ Blockly.JavaScript['remove_crew'] = block => {
 Blockly.Blocks['damage'] = {
   init() {
     this.appendValueInput("DAMAGE_ATTRIBUTES")
-        .setCheck(null)
+        .setCheck("allowed_dmg_attributes")
         .appendField("<damage> amount:")
         .appendField(new Blockly.FieldNumber(0, -Infinity, Infinity, 1), "DAMAGE_AMOUNT");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, "allowed_event_childs");
+    this.setNextStatement(true, "allowed_event_childs");
     this.setInputsInline(false);
     this.setColour(260);
     this.setTooltip("");
@@ -673,7 +730,7 @@ Blockly.Blocks['damage'] = {
 Blockly.Blocks['attri_damage_system'] = {
   init() {
     this.appendValueInput("DAMAGE_EFF")
-        .setCheck(null)
+        .setCheck("allowed_dmg_attributes")
         .appendField("system:")
         .appendField(new Blockly.FieldDropdown([
           ["shields","shields"], 
@@ -695,7 +752,7 @@ Blockly.Blocks['attri_damage_system'] = {
           ["sys-less room", "room"],
           ["random", "random"],
         ]), "DAMAGE_ROOM");
-    this.setOutput(true, null);
+    this.setOutput(true, "allowed_dmg_attributes");
     this.setColour(330);
     this.setTooltip("");
     this.setHelpUrl("");
@@ -705,7 +762,7 @@ Blockly.Blocks['attri_damage_system'] = {
 Blockly.Blocks['attri_damage_effect'] = {
   init() {
     this.appendValueInput("DAMAGE_SYS")
-        .setCheck(null)
+        .setCheck("allowed_dmg_attributes")
         .appendField("extra effect:")
         .appendField(new Blockly.FieldDropdown([
           ["fire","fire"], 
@@ -713,7 +770,7 @@ Blockly.Blocks['attri_damage_effect'] = {
           ["all","all"], 
           ["random","random"], 
         ]), "DAMAGE_EFFECT");
-    this.setOutput(true, null);
+    this.setOutput(true, "allowed_dmg_attributes");
     this.setColour(330);
     this.setTooltip("");
     this.setHelpUrl("");
@@ -757,8 +814,8 @@ Blockly.Blocks['status'] = {
         ]), "STATUS_ROOM")
         .appendField("amount:")
         .appendField(new Blockly.FieldNumber(0, 0, Infinity, 1), "STATUS_AMOUNT");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, "allowed_event_childs");
+    this.setNextStatement(true, "allowed_event_childs");
     this.setColour(260);
     this.setTooltip("");
     this.setHelpUrl("");
@@ -789,8 +846,8 @@ Blockly.Blocks['upgrade'] = {
           ["doors", "doors"], 
           ["battery", "battery"],
         ]), "UPG_SYS");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, "allowed_event_childs");
+    this.setNextStatement(true, "allowed_event_childs");
     this.setColour(260);
     this.setTooltip("");
     this.setHelpUrl("");
@@ -819,8 +876,8 @@ Blockly.Blocks['system'] = {
           ["doors", "doors"], 
           ["battery", "battery"],
         ]), "SYSTEM_SYS");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, "allowed_event_childs");
+    this.setNextStatement(true, "allowed_event_childs");
     this.setColour(260);
     this.setTooltip("");
     this.setHelpUrl("");
@@ -882,8 +939,8 @@ Blockly.Blocks['distress_beacon'] = {
   init() {
     this.appendDummyInput()
         .appendField("<distressBeacon>");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, "allowed_event_childs");
+    this.setNextStatement(true, "allowed_event_childs");
     this.setColour(300);
     this.setTooltip("");
     this.setHelpUrl("");
@@ -894,8 +951,8 @@ Blockly.Blocks['reveal_map'] = {
   init() {
     this.appendDummyInput()
         .appendField("<reveal_map>");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, "allowed_event_childs");
+    this.setNextStatement(true, "allowed_event_childs");
     this.setColour(300);
     this.setTooltip("");
     this.setHelpUrl("");
@@ -907,8 +964,8 @@ Blockly.Blocks['modify_pursuit'] = {
     this.appendDummyInput()
         .appendField("<modifyPursuit> amount:")
         .appendField(new Blockly.FieldNumber(0, 0, Infinity, 1), "PURSUIT_AMOUNT");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, "allowed_event_childs");
+    this.setNextStatement(true, "allowed_event_childs");
     this.setColour(300);
     this.setTooltip("");
     this.setHelpUrl("");
@@ -920,8 +977,8 @@ Blockly.Blocks['store'] = {
     this.appendDummyInput()
         .appendField("<store> store name:")
         .appendField(new Blockly.FieldTextInput("STORE_STANDARD"), "STORE");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, "allowed_event_childs");
+    this.setNextStatement(true, "allowed_event_childs");
     this.setColour(300);
     this.setTooltip("");
     this.setHelpUrl("");
@@ -933,8 +990,8 @@ Blockly.Blocks['quest'] = {
     this.appendDummyInput()
         .appendField("<quest> event:")
         .appendField(new Blockly.FieldTextInput("EVENT_NAME"), "QUEST_EVT");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, "allowed_event_childs");
+    this.setNextStatement(true, "allowed_event_childs");
     this.setColour(300);
     this.setTooltip("");
     this.setHelpUrl("");
@@ -994,8 +1051,8 @@ Blockly.Blocks['environment'] = {
           ["enemy","enemy"], 
           ["all","all"], 
         ]), "ENV_TARGET");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, "allowed_event_childs");
+    this.setNextStatement(true, "allowed_event_childs");
     this.setColour(200);
     this.setTooltip("");
     this.setHelpUrl("");
@@ -1009,8 +1066,8 @@ Blockly.Blocks['img'] = {
         .appendField(new Blockly.FieldTextInput("BACKGROUND_NAME"), "IMG_BG")
         .appendField("planet:")
         .appendField(new Blockly.FieldTextInput("PLANET_NONE"), "IMG_PLT");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, "allowed_event_childs");
+    this.setNextStatement(true, "allowed_event_childs");
     this.setColour(200);
     this.setTooltip("");
     this.setHelpUrl("");
@@ -1029,8 +1086,8 @@ Blockly.Blocks['custom_fleet'] = {
     this.appendDummyInput()
         .appendField("fleet name:")
         .appendField(new Blockly.FieldTextInput("CUSTOM_FLEET"), "FLEET_NAME");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, "allowed_event_childs");
+    this.setNextStatement(true, "allowed_event_childs");
     this.setColour(200);
     this.setTooltip("");
     this.setHelpUrl("");

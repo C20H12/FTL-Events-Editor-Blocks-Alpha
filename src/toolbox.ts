@@ -55,7 +55,7 @@ export const toolbox: BlocklyToolboxDef = {
       contents: [
         {
           kind: "block",
-          type: "text",
+          type: "text_choice",
         },
         {
           kind: "block",
@@ -238,6 +238,10 @@ export const toolbox: BlocklyToolboxDef = {
       name: "Others",
       colour: 120,
       contents: [
+        {
+          kind: "block",
+          type: "text_txlist",
+        },
         {
           kind: "block",
           type: "text_load",
