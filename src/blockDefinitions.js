@@ -77,6 +77,7 @@ Blockly.Blocks['event_load'] = {
         .appendField("<event> Load")
         .appendField(new Blockly.FieldTextInput("EVENT_NAME"), "LDEVENT");
     this.setPreviousStatement(true, null);
+    this.setNextStatement(true,null);
     this.setColour(230);
     this.setTooltip("");
     this.setHelpUrl("");
@@ -831,7 +832,7 @@ Blockly.Blocks['system'] = {
 Blockly.JavaScript['damage'] = block => {
   let number_dmg_amount = block.getFieldValue("DAMAGE_AMOUNT");
   let value_dmg_attributes = Blockly.JavaScript.valueToCode(block, 'DAMAGE_ATTRIBUTES', Blockly.JavaScript.ORDER_ATOMIC);
-  let code = `<damage amount="${number_dmg_amount}" ${value_dmg_attributes}/>`;
+  let code = `<damage amount="${number_dmg_amount}" ${value_dmg_attributes}/>\n`;
   return code;
 };
 
@@ -845,7 +846,7 @@ Blockly.JavaScript['attri_damage_system'] = block => {
 Blockly.JavaScript['attri_damage_effect'] = block => {
   let dropdown_damage_eff = block.getFieldValue("DAMAGE_EFFECT");
   let value_more_attributes = Blockly.JavaScript.valueToCode(block, 'DAMAGE_SYS', Blockly.JavaScript.ORDER_ATOMIC);
-  let code = `system="${dropdown_damage_eff}" ${value_more_attributes}`;
+  let code = `effect="${dropdown_damage_eff}" ${value_more_attributes}`;
   return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
 
@@ -1130,7 +1131,7 @@ document.querySelector("#saveAsBlocks").addEventListener("click", ()=>{
 document.querySelector("#saveOutput").addEventListener("click", ()=>{
   const outputXmlString = document.querySelector("#outputArea").value || "<empty/>";
 
-  const blobData = new Blob([outputXmlString], {type: "text/xml"});
+  const blobData = new Blob([outputXmlString], {type: "text/plain"});
   const blobUrl = window.URL.createObjectURL(blobData);
   saveFile("events_generated.xml.append", blobUrl);
 });
