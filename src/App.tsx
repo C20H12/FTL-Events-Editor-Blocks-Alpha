@@ -23,7 +23,7 @@ function XMLInputBox(props:any): JSX.Element {
 
 function EventSimText(): JSX.Element{
   return(
-    <span className='text'>aaaaaaaaaaaaaaa</span>
+    <span className='text'>aaaaaassssssssssssssssssssssssssssaaaaaaaaa</span>
   )
 }
 
@@ -31,13 +31,50 @@ function EventSimChoices(): JSX.Element {
   return(
     <ol>
       <li>choice</li>
+      <li>choice</li>
+      <li>choice</li>
+      <li>choice</li>
+      <li>choice</li>
+      <li>choice</li>
+      <li>choice</li>
+      <li>choice</li>
+      <li>choice</li>
+      <li>choice</li>
+      <li>choice</li>
+      <li>choice</li>
+      <li>choice</li>
+      <li>choice</li>
+      <li>choice</li>
+      <li>choice</li>
+      <li>choice</li>
+      <li>choice</li>
+      <li>choice</li>
+      <li>choice</li>
+      <li>choice</li>
+      <li>choice</li>
+      <li>choice</li>
+      <li>choice</li>
+      <li>choice</li>
+      <li>choice</li>
+      <li>choice</li>
+      <li>choice</li>
+      <li>choice</li>
+      <li>choice</li>
+      <li>choice</li>
+      <li>choice</li>
+      <li>choice</li>
+      <li>choice</li>
+      <li>choice</li>
     </ol>
   )  
 }
 
 function EventSimMsgBox(): JSX.Element {
   return(
-    <div className='message'>aaaaaaa</div>
+    <>
+      <br/>
+      <div className='message'>aaaaaaaaaaaaaaaaaaaaaaaaaa</div>
+    </>
   )
 }
 
