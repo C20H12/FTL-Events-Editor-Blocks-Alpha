@@ -7,6 +7,38 @@
   src: url('./fonts/JustinFont11Bold.ttf')
 }
 
+::-webkit-scrollbar{
+  border: none
+}
+::-webkit-scrollbar-thumb {
+  background-color: #e5e5e5;
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+::-webkit-scrollbar-button:single-button {
+  background-color: transparent;
+  display: block;
+  border-style: solid;
+  height: 13px;
+  width: 16px;
+}
+::-webkit-scrollbar-button:single-button:vertical:decrement {
+  border-width: 0 8px 8px 8px;
+  border-color: transparent transparent #e5e5e5 transparent;
+}
+::-webkit-scrollbar-button:single-button:vertical:decrement:hover {
+  border-color: transparent transparent #3a7fff transparent;
+}
+::-webkit-scrollbar-button:single-button:vertical:increment {
+  border-width: 8px 8px 0 8px;
+  border-color: #e5e5e5 transparent transparent transparent;
+}
+::-webkit-scrollbar-button:vertical:single-button:increment:hover {
+  border-color: #3a7fff transparent transparent transparent;
+} 
+
 
 .eventBox {
   margin: 30px 0 0 30px;
@@ -57,10 +89,10 @@
   color: #f5f5f5;
   font-family: ftlStyle;
   font-size: 21px;
-  margin-left: 25px;
-  margin-right: 25px;
-  margin-top: 18px;
+  margin: 18px 25px 0 25px;
   word-wrap: break-word;
+  overflow-y: scroll;
+  height: 425px;
 }
 
 li:hover {
@@ -80,13 +112,14 @@ ol{
   background-color: #474343;
   border: 2px solid white;
   font-size: 22px;
-  position: absolute;
+  position: relative;
   display: inline-block;
-  left: 50%;
-  transform: translate(-50%, 0);
-  margin-top: 15px;
+  margin: 15px auto 0 auto;
   font-family: ftlStyleSlim;
+  text-align: center;
   padding: 5px 10px 5px 10px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 .choiceMessage{
   background-color: #474343;

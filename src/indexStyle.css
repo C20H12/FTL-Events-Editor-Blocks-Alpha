@@ -1,30 +1,73 @@
 body {
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
 }
+
+.tabs{
+  width: 100%;
+  background-color: #c6c6c6;
+  padding: 1em;
+  margin-top: 1em;
+  margin-bottom: 2em;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.tabs .tab{
+  display: inline;
+  border: 2px solid blue;
+  padding: 10px;
+  margin: 0 .5em 0 .5em;
+  position: relative;
+  left: 4em;
+}
+.tabs .tab:hover{
+  background-color: #37afff;
+  cursor: pointer;
+}
+.tabOpen{
+  box-shadow: 0 0 10px 5px #37afff;
+  background: #37afff44;
+}
+
+
 #blocksAreasWrapper {
-  display: grid;
-  grid-template-columns: 800px 800px;
-  margin: 3rem;
+  width: 90vw;
+  margin: auto;
 }
 textarea#outputArea {
-  height: 912px;
+  width: 100%;
+  height: 500px;
   border: 2px solid green;
   resize: none;
-  margin: 0 20% 0 10px;
+  margin-top: 1em;
 }
 #blocklyDiv {
   height: 915px;
   border: 2px solid red;
 }
 
-#saveAsBlocks,#saveOutput,#loadBlocks {
-  padding: 20px 100px 20px 100px;
+
+.buttonsWrapper{
+  display: grid;
+  grid-template-columns: auto auto auto;
+  gap: 1em;
+  width: 90vw;
   margin: auto;
+  padding-bottom: 3em;
+}
+
+#loadBlocks{
+  display: none;
+}
+#saveAsBlocks,#saveOutput,.loadBlocksFile {
+  padding: 20px 100px 20px 100px;
   border: 2px solid orange;
   text-align: center;
+  background-color: #c6c6c6;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1em;
 }
-#saveAsBlocks:hover,#saveOutput:hover {
+#saveAsBlocks:hover,#saveOutput:hover,.loadBlocksFile:hover {
   background-color: rgb(255, 206, 114);
 }
 
@@ -34,4 +77,29 @@ textarea#outputArea {
   right: 150px;
   bottom: 20px;
   border-bottom: 1px dotted black;
+}
+
+
+.categoryBubble {
+  width: 90%;
+  border-radius: 0;
+  border: none;
+  height: 5px;
+}
+
+.hsSeparator{
+  margin-top: 2em;
+  margin-bottom: 2em;
+  padding: 5px 0 5px 0;
+  height: 2em;
+  border-bottom: 3px solid black;
+  border-top: 3px solid black;;
+  text-align: center;
+  background: rgba(58, 127, 255, 0.5);
+}
+.hsSeparator::after{
+  content: "Hyperspace\ATags";
+  white-space: pre;
+  color:rgb(0, 26, 255);
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
