@@ -85,6 +85,18 @@
     transform: rotate(45deg);
 }
 
+.xmlinput{
+  display: grid; 
+  margin: 5em;
+  width: 700px;
+  height: 300px;
+}
+#eventEmuInput{
+ 
+}
+
+
+
 .main_event{
   color: #f5f5f5;
   font-family: ftlStyle;
