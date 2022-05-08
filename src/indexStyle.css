@@ -71,13 +71,6 @@ textarea#outputArea {
   background-color: rgb(255, 206, 114);
 }
 
-#loadBlocks::after{
-  content: "LOAD BLOCK WORKSPACE";
-  position: relative;
-  right: 150px;
-  bottom: 20px;
-  border-bottom: 1px dotted black;
-}
 
 
 .categoryBubble {
