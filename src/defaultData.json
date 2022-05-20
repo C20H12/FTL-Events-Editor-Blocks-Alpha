@@ -1,0 +1,3 @@
+{
+  "defaultEvent1": "<event><text>This is the testing interface. Input your full XML below, and watch this window update!</text><choice><text>Ok</text><event/></choice></event>"
+}

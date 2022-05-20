@@ -1,91 +1,13 @@
 import {useState, useEffect} from 'react'
-import './App.css'
+import './App.css';
+import EventWindow from './EventWindow';
+import * as defaultData from './defaultData.json';
 
-function XMLInputBox(props:any): JSX.Element {
 
-  if (props.is) {
-    const inputValue: string = (document.querySelector("#eventEmuInput") as HTMLInputElement).value || "aaa";
-    return (
-      <div>
-        <h1>{inputValue}</h1>
-        <button onClick={props.setfunction}>back</button>
-      </div>
-    )
-  }
+export default function App(){
 
-  return(
-    <div className="xmlinput">
-      <textarea id="eventEmuInput" placeholder="EMULATE EVENT HERE"></textarea>
-      <button onClick={props.setfunction}>RENDER EVENT</button>
-    </div>
-  )
-}
 
-function EventSimText(): JSX.Element{
-  return(
-    <span className='text'>aaaaaassssssssssssssssssssssssssssaaaaaaaaa</span>
-  )
-}
-
-function EventSimChoices(): JSX.Element {
-  return(
-    <ol>
-      <li>choice</li>
-      <li>choice</li>
-      <li>choice</li>
-      <li>choice</li>
-      <li>choice</li>
-      <li>choice</li>
-      <li>choice</li>
-      <li>choice</li>
-      <li>choice</li>
-      <li>choice</li>
-      <li>choice</li>
-      <li>choice</li>
-      <li>choice</li>
-      <li>choice</li>
-      <li>choice</li>
-      <li>choice</li>
-      <li>choice</li>
-      <li>choice</li>
-      <li>choice</li>
-      <li>choice</li>
-      <li>choice</li>
-      <li>choice</li>
-      <li>choice</li>
-      <li>choice</li>
-      <li>choice</li>
-      <li>choice</li>
-      <li>choice</li>
-      <li>choice</li>
-      <li>choice</li>
-      <li>choice</li>
-      <li>choice</li>
-      <li>choice</li>
-      <li>choice</li>
-      <li>choice</li>
-      <li>choice</li>
-    </ol>
-  )  
-}
-
-function EventSimMsgBox(): JSX.Element {
-  return(
-    <>
-      <br/>
-      <div className='message'>aaaaaaaaaaaaaaaaaaaaaaaaaa</div>
-    </>
-  )
-}
-
-export default function App(): JSX.Element{
-
-  const [isClicked, setIsClicked]: [boolean,Function] = useState(false);
-  
-  const handleRenderEventClick = ()=>{
-    setIsClicked((x: boolean) => !x);
-  }
-  
+  const [eventXml, setEventXml] = useState(defaultData.defaultEvent1);
   
 
   return(
@@ -93,14 +15,44 @@ export default function App(): JSX.Element{
       <div className="eventBox">
           <div className="corners">
             <div className="main_event">
-              <EventSimText />
-              <EventSimMsgBox />
-              <EventSimChoices />
+              <EventWindow xml={eventXml} />
             </div>
           </div>
       </div>
-      <XMLInputBox setfunction={handleRenderEventClick} is={isClicked}/>
+      <XMLInputBox  xmlValue={eventXml} setXmlFunction={setEventXml} />
     </>
   )  
 }
 
+function XMLInputBox(props: {setXmlFunction: Function, xmlValue: string}) {
+  const {setXmlFunction, xmlValue} = props;
+  const [xmlErr, setXmlErr] = useState("Errors will appear here:");
+  
+  const parser = new DOMParser;
+  useEffect(() => {
+    const parsedXml = parser.parseFromString(xmlValue, "text/xml");
+    setXmlErr(parsedXml.querySelector("parsererror>div")?.textContent || "No Errors");
+  }, [xmlValue])
+
+  return(
+    <div className="xmlinput">
+      <textarea 
+        id="eventEmuInput" 
+        placeholder="EMULATE EVENT HERE" 
+        wrap='off'
+        onChange={e => {
+          const xmlString = (e.target as HTMLTextAreaElement).value;
+          setXmlFunction(xmlString);
+        }}
+      />
+      <div className='xmlErr'>
+        {xmlErr.split(' ').map((elem, i, thisArr) => {
+          if (elem === 'error' && thisArr[i+1] === "on") return <span key={i} className='e'>{elem.toUpperCase() + ': '}</span>;
+          if (elem === "line" || elem === "column") return <span key={i} className='lnCol'>{elem +' '+ thisArr[i+1]+' '}</span>;
+          if (thisArr[i-1] === "line" || thisArr[i-1] === "column") return;
+          return elem + ' ';
+        })}
+      </div>
+    </div>
+  )
+}
