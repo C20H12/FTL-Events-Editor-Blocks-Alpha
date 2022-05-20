@@ -1,8 +1,6 @@
 import { Blocks } from "blockly";
 import { FieldTextInput, FieldNumber, FieldCheckbox, FieldDropdown, FieldColour } from "blockly";
-import {ContinuousToolbox, ContinuousFlyout, ContinuousMetrics} from '@blockly/continuous-toolbox';
-import { toolbox } from "./toolbox";
-import { inject, JavaScript, Xml } from 'blockly';
+
 
 // -------------------------------
 // EVENT RELATED CATEGORY---------
@@ -2455,83 +2453,3 @@ Blocks['lose'] = {
 
 
 
-//==================================================================
-//injection----------------------------------------------------------
-
-
-const workspace = inject('blocklyDiv',  {
-  plugins: {
-    'toolbox': ContinuousToolbox,
-    'flyoutsVerticalToolbox': ContinuousFlyout,
-    'metricsManager': ContinuousMetrics,
-  },
-  toolbox: toolbox,
-  zoom:{
-    controls: true,
-    wheel: false,
-    startScale: 1.0,
-    maxScale: 3,
-    minScale: 0.3,
-    scaleSpeed: 1.2,
-    pinch: true
-  },
-  move:{
-    scrollbars: {
-      horizontal: true,
-      vertical: true
-    },
-    drag: true,
-    wheel: true,
-  },
-  trashcan: true
-});
-
-
-
-
-// real time update handler
-function dynamicUpdater(_event) {
-  let allcode = JavaScript.workspaceToCode(workspace);
-  document.getElementById('outputArea').value = allcode;
-}
-workspace.addChangeListener(dynamicUpdater);
-
-
-
-// saving and loading handlers
-function saveFile(fileName,urlFile){
-  const a = document.createElement("a");
-  a.style = "display: none";
-  document.body.appendChild(a);
-  a.href = urlFile;
-  a.download = fileName;
-  a.click();
-  window.URL.revokeObjectURL(urlFile);
-  a.remove();
-}
-
-document.querySelector("#saveAsBlocks").addEventListener("click", ()=>{
-  const xml = Xml.workspaceToDom(workspace);
-  const xmlString = Xml.domToPrettyText(xml);
-
-  const blobData = new Blob([xmlString], {type: "text/xml"});
-  const blobUrl = window.URL.createObjectURL(blobData);
-  saveFile("blocks_workspace.xml", blobUrl);
-});
-
-document.querySelector("#saveOutput").addEventListener("click", ()=>{
-  const outputXmlString = document.querySelector("#outputArea").value || "<empty/>";
-
-  const blobData = new Blob([outputXmlString], {type: "text/plain"});
-  const blobUrl = window.URL.createObjectURL(blobData);
-  saveFile("events_generated.xml.append", blobUrl);
-});
-
-document.querySelector("#loadBlocks").addEventListener("change", async (event)=>{
-  const file = event.target.files.item(0)
-  const text = await file.text();
-  
-  let xml = Xml.textToDom(text);
-  Xml.domToWorkspace(xml,workspace);
-  document.querySelector("#loadBlocks").value = "";
-});
