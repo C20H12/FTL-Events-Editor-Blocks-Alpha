@@ -4,34 +4,111 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FTL Modding: Blocks Editor</title>
-    <link rel="icon" type="image/png" sizes="32x32" href="./src/favicon_io/favicon-16x16.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="./src/favicon_io/favicon-32x32.png">
-    <link rel="stylesheet" href="./src/indexStyle.css">
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./src/favicon_io/favicon-16x16.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="./src/favicon_io/favicon-32x32.png"
+    />
+    <link rel="stylesheet" href="./src/indexStyle.css" />
   </head>
   <body>
     <div class="tabs">
-      <div id="showBlocks" class="tab tabOpen">EDITOR</div>
-      <div id="showEvent" class="tab">TESTING</div>
+      <div class="menus">
+        <div class="file">
+          <button id="showFile">File</button>
+          <ul>
+            <li><button data-saveProject>Save project</button></li>
+            <li>
+              <button data-loadProject>Load project</button>
+            </li>
+            <li><button data-downloadWs>Download workspace</button></li>
+            <li><button data-loadWs>Load workspace</button></li>
+            <li><button data-exportXml>Export as XML</button></li>
+          </ul>
+        </div>
+        <div class="edit">
+          <button id="showEdit">Edit</button>
+          <ul>
+            <li><button>Undo</button></li>
+            <li><button>Redo</button></li>
+            <li><button>Clear</button></li>
+          </ul>
+        </div>
+        <div class="editor">
+          <button id="showEditor">Options</button>
+          <ul>
+            <li>
+              <input type="checkbox" id="toolbox" />
+              <label for="toolbox">Continuous?</label>
+            </li>
+            <li>
+              <input type="checkbox" id="zoom" />
+              <label for="zoom">Allow Zoom?</label>
+            </li>
+            <li>
+              <input type="checkbox" id="scroll" />
+              <label for="scroll">Allow Scroll?</label>
+            </li>
+            <li>
+              <input type="checkbox" id="trash" />
+              <label for="trash">Trash Bin?</label>
+            </li>
+          </ul>
+        </div>
+        <div class="layout">
+          <button id="showLayout">Layout</button>
+          <ul>
+            <li><button>Top Down</button></li>
+            <li><button>Blocks | Output</button></li>
+            <li><button>Output | Blocks</button></li>
+          </ul>
+        </div>
+        <div class="help">
+          <button id="showHelp">Help</button>
+          <ul>
+            <li>
+              <button>
+                <a target="_blank" href="#">Guides</a>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="btns">
+        <div id="showBlocks" class="tab tabOpen">EDITOR</div>
+        <div id="showEvent" class="tab">TESTING</div>
+      </div>
     </div>
 
-    <div id="root" style="display: none;"></div>
-    
+    <div id="root" style="display: none"></div>
+
     <div id="blocksWorkspace">
       <div id="blocksAreasWrapper">
-        <div id="blocklyDiv" ></div>
-        <textarea id="outputArea" rows="61" placeholder="OUTPUT WILL DISPLAY HERE" readonly></textarea>
+        <div id="blocklyDiv"></div>
+        <textarea
+          id="outputArea"
+          rows="61"
+          placeholder="OUTPUT WILL DISPLAY HERE"
+          readonly
+        ></textarea>
       </div>
       <div class="buttonsWrapper">
-        <button id="saveAsBlocks">SAVE BLOCKS WORKSPACE</button>
-        <button id="saveOutput">SAVE XML OUTPUT</button>
-        <label for="loadBlocks" class="loadBlocksFile">LOAD BLOCKS WORKSPACE</label>
-        <input type="file" id="loadBlocks">
+        <input type="file" id="loadBlocks" />
       </div>
     </div>
-    
+
     <script type="module" src="./src/blockDefinitions.js"></script>
     <script type="module" src="./src/blockGenerators.js"></script>
+    <script type="module" src="./src/blockFunctions.js"></script>
     <script type="module" src="./src/main.tsx"></script>
     <script type="module" src="./src/tabSwitch.js"></script>
+    <script type="module" src="./src/menus.js"></script>
   </body>
 </html>
