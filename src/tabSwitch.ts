@@ -1,7 +1,7 @@
-const blocksTabBtn = document.querySelector("#showBlocks");
-const eventTestTabBtn = document.querySelector("#showEvent");
-const eventTestTab = document.querySelector("#root");
-const blocksEditTab = document.querySelector("#blocksWorkspace");
+const blocksTabBtn: HTMLDivElement = document.querySelector("#showBlocks")!;
+const eventTestTabBtn: HTMLDivElement = document.querySelector("#showEvent")!;
+const eventTestTab: HTMLDivElement = document.querySelector("#root")!;
+const blocksEditTab: HTMLDivElement = document.querySelector("#blocksWorkspace")!;
 
 blocksTabBtn.addEventListener("click", () => {
   eventTestTab.style.display = "none";
