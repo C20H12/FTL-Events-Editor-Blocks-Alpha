@@ -30,6 +30,12 @@ type BlocklyWorkspaceInjectionOption = {
     scaleSpeed: number,
     pinch: boolean,
   },
+  grid: {
+    spacing: number,
+    length: number,
+    colour: string,
+    snap: boolean,
+  },
   move: {
     scrollbars: {
       horizontal: boolean,
@@ -44,7 +50,7 @@ type BlocklyWorkspaceInjectionOption = {
 };
 
 
-class EditorConfig {
+export default class EditorController {
   
   private outputArea = document.getElementById("outputArea") as HTMLTextAreaElement;
   public loadBlocksWorkspaceInput = document.querySelector('#loadBlocks') as HTMLInputElement;
@@ -72,14 +78,25 @@ class EditorConfig {
       drag: true,
       wheel: true,
     },
+    grid:{
+      spacing: 30,
+      length: 3,
+      colour: '#ccc',
+      snap: true
+    },
     trashcan: true,
     sounds: false,
     media: "./src/img/",
   };
   private workspace = inject('blocklyDiv', this.workspaceOptionsObj);
+
+
+  constructor() {
+    this.workspace.addChangeListener(this.outputUpdateHandle);
+  }
   
 
-  private injectWorkspace(injectOptObj: BlocklyWorkspaceInjectionOption) {
+  private updateWorkspace(injectOptObj: BlocklyWorkspaceInjectionOption) {
     this.workspace.dispose()
     this.workspace = inject('blocklyDiv', injectOptObj);
     this.workspace.addChangeListener(this.outputUpdateHandle)
@@ -123,11 +140,11 @@ class EditorConfig {
 
 
   public saveProject() {
-    
+    window.alert("saved for future use");
   }
 
   public loadProject() {
-
+    window.alert("saved for future use");
   }
 
   public downloadWorkspace() {
@@ -163,30 +180,39 @@ class EditorConfig {
     .catch(() => console.warn("Saving process aborted!"));
   }
 
+
+  public editorUndo() {
+    this.workspace.undo(false);
+  }
+
+  public editorRedo() {
+    this.workspace.undo(true);
+  }
+
+  public editorClear() { 
+    this.workspace.clear();
+  }
+
+
+  public setIsContinuous(isContinuous: boolean) {
+    this.workspaceOptionsObj.plugins
+  }
+
+  public setCanZoom(isContinuous: boolean) {
+    
+  }
+
+  public setCanScroll(isContinuous: boolean) {
+    
+  }
+
+  public setHasTrashBin(isContinuous: boolean) {
+    
+  }
+
+  public setHasGrid(isContinuous: boolean) {
+  
+  }
+
 }
   
-// saving and loading handlers
-//==================================================================
-const saveProject = document.querySelector("[data-saveProject]") as HTMLButtonElement;
-const loadProject = document.querySelector("[data-loadProject]") as HTMLButtonElement;
-const downloadWorkSpace = document.querySelector("[data-downloadWs]") as HTMLButtonElement;
-const loadWorkSpace = document.querySelector("[data-loadWs]") as HTMLButtonElement;
-const exportGeneratedXml = document.querySelector("[data-exportXml]") as HTMLButtonElement;
-
-
-
-const configHandler = new EditorConfig();
-
-
-
-downloadWorkSpace.addEventListener("click", () => configHandler.downloadWorkspace());
-
-exportGeneratedXml.addEventListener("click", () => configHandler.exportXml());
-
-loadWorkSpace.addEventListener('click', () => {
-  configHandler.loadBlocksWorkspaceInput.click()
-});
-configHandler.loadBlocksWorkspaceInput.addEventListener("change", () => {
-  configHandler.importWorkspace()
-});
-

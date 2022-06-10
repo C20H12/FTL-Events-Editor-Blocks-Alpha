@@ -1,3 +1,8 @@
+import EditorController from "./blockFunctions";
+
+const configHandler = new EditorController();
+
+// open menu and close menu handlers
 const menuBtns = document.querySelectorAll(".menus>div>button") as NodeListOf<HTMLButtonElement>;
 const allMenus = document.querySelectorAll(".menus>div>ul") as NodeListOf<HTMLDivElement>;
 const wholeDocument = document.querySelectorAll("#blocklyDiv,.btns") as NodeListOf<HTMLDivElement>;
@@ -23,4 +28,43 @@ wholeDocument.forEach(elem => {
   });
 })
 
-export default menuBtns
+
+// saving and loading handlers
+const saveProject = document.querySelector("[data-saveProject]") as HTMLButtonElement;
+const loadProject = document.querySelector("[data-loadProject]") as HTMLButtonElement;
+const downloadWorkSpace = document.querySelector("[data-downloadWs]") as HTMLButtonElement;
+const loadWorkSpace = document.querySelector("[data-loadWs]") as HTMLButtonElement;
+const exportGeneratedXml = document.querySelector("[data-exportXml]") as HTMLButtonElement;
+
+
+loadProject.addEventListener('click', () => configHandler.loadProject());
+saveProject.addEventListener('click', () => configHandler.saveProject());
+
+downloadWorkSpace.addEventListener("click", () => configHandler.downloadWorkspace());
+
+loadWorkSpace.addEventListener('click', () => {
+  configHandler.loadBlocksWorkspaceInput.click()
+});
+configHandler.loadBlocksWorkspaceInput.addEventListener("change", () => {
+  configHandler.importWorkspace()
+});
+
+exportGeneratedXml.addEventListener("click", () => configHandler.exportXml());
+
+
+// edit menu handlers
+const editUndo = document.querySelector("[data-undo]") as HTMLButtonElement;
+const editRedo = document.querySelector("[data-redo]") as HTMLButtonElement;
+const editClear = document.querySelector("[data-clear]") as HTMLButtonElement;
+
+editUndo.addEventListener('click', () => configHandler.editorUndo());
+editRedo.addEventListener('click', () => configHandler.editorRedo());
+editClear.addEventListener('click', () => configHandler.editorClear());
+
+// block workspace handlers
+const editorContinuous = document.querySelector("[data-editorContinuous]") as HTMLButtonElement;
+const editorZoom = document.querySelector("[data-editorZoom]") as HTMLButtonElement;
+const editorScroll = document.querySelector("[data-editorScroll]") as HTMLButtonElement;
+const editorTrash = document.querySelector("[data-editorTrash]") as HTMLButtonElement;
+const editorGrid = document.querySelector("[data-editorGrid]") as HTMLButtonElement;
+
