@@ -1,7 +1,7 @@
-const blocksTabBtn: HTMLDivElement = document.querySelector("#showBlocks")!;
-const eventTestTabBtn: HTMLDivElement = document.querySelector("#showEvent")!;
-const eventTestTab: HTMLDivElement = document.querySelector("#root")!;
-const blocksEditTab: HTMLDivElement = document.querySelector("#blocksWorkspace")!;
+const blocksTabBtn = document.querySelector("#showBlocks") as HTMLDivElement;
+const eventTestTabBtn = document.querySelector("#showEvent") as HTMLDivElement;
+const eventTestTab = document.querySelector("#root") as HTMLDivElement;
+const blocksEditTab = document.querySelector("#blocksWorkspace") as HTMLDivElement;
 
 blocksTabBtn.addEventListener("click", () => {
   eventTestTab.style.display = "none";
@@ -22,3 +22,5 @@ eventTestTabBtn.addEventListener("click", () => {
   blocksTabBtn.classList.toggle("tabOpen");
   eventTestTabBtn.classList.toggle("tabOpen");
 })
+
+export default blocksEditTab;

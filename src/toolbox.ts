@@ -1,5 +1,4 @@
-
-type BlocklyToolboxDef = {
+export type BlocklyToolboxDef = {
   kind: string,
   contents: Array<{
     kind: string,

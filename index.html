@@ -24,13 +24,24 @@
         <div class="file">
           <button id="showFile">File</button>
           <ul>
-            <li><button data-saveProject>Save project</button></li>
+            <li>
+              <button data-saveProject>Save project</button>
+            </li>
             <li>
               <button data-loadProject>Load project</button>
             </li>
-            <li><button data-downloadWs>Download workspace</button></li>
-            <li><button data-loadWs>Load workspace</button></li>
-            <li><button data-exportXml>Export as XML</button></li>
+            <li>
+              <button data-downloadWs>Download workspace</button>
+            </li>
+            <li>
+              <button data-loadWs>
+                Load workspace
+                <input type="file" id="loadBlocks" />
+              </button>
+            </li>
+            <li>
+              <button data-exportXml>Export XML</button>
+            </li>
           </ul>
         </div>
         <div class="edit">
@@ -99,16 +110,14 @@
           readonly
         ></textarea>
       </div>
-      <div class="buttonsWrapper">
-        <input type="file" id="loadBlocks" />
-      </div>
     </div>
 
     <script type="module" src="./src/blockDefinitions.js"></script>
     <script type="module" src="./src/blockGenerators.js"></script>
-    <script type="module" src="./src/blockFunctions.js"></script>
+    <script type="module" src="./src/blockFunctions.ts"></script>
     <script type="module" src="./src/main.tsx"></script>
-    <script type="module" src="./src/tabSwitch.js"></script>
-    <script type="module" src="./src/menus.js"></script>
+    <script type="module" src="./src/tabSwitch.ts"></script>
+    <script type="module" src="./src/menus.ts"></script>
   </body>
 </html>
+
