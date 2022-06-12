@@ -132,7 +132,6 @@ const layoutAreas: NodeListOf<HTMLButtonElement> = document.querySelectorAll(
 layoutButtons.forEach(elem => {
   elem.addEventListener("click", () => {
     layoutAreas.forEach(elem2 => {
-      console.log(elem.dataset)
       if ("layouttopdown" in elem.dataset)
         elem2.className = "topdown";
       else if ("layoutleftright" in elem.dataset)

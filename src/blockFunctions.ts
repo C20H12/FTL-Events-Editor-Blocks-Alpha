@@ -102,11 +102,13 @@ export default class EditorController {
   
 
   private updateWorkspace(injectOptObj: BlocklyWorkspaceInjectionOption) {
+    const tempAllBlocksXml: Element = Xml.workspaceToDom(this.workspace);
     this.workspace.dispose()
     this.workspace = inject('blocklyDiv', injectOptObj);
     this.workspace.addChangeListener(() => {
       this.outputArea.value = JavaScript.workspaceToCode(this.workspace);
-    })
+    });
+    Xml.domToWorkspace(tempAllBlocksXml, this.workspace);
   }
 
 
@@ -153,7 +155,7 @@ export default class EditorController {
   }
 
   public downloadWorkspace() {
-    const xml:Document = Xml.workspaceToDom(this.workspace);
+    const xml:Element = Xml.workspaceToDom(this.workspace, true);
   
     this.saveFile(
       Xml.domToPrettyText(xml), 
@@ -170,7 +172,7 @@ export default class EditorController {
 
     const text = await file.text();
 
-    const xml:Element = Xml.textToDom(text);
+    const xml:Document = Xml.textToDom(text);
     Xml.domToWorkspace(xml, this.workspace);
     this.loadBlocksWorkspaceInput.value = "";
   }
