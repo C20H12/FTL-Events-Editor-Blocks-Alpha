@@ -46,7 +46,7 @@ type BlocklyWorkspaceInjectionOption = {
   },
   trashcan: boolean,
   sounds: boolean,
-  media: "./src/img/",
+  media: string
 };
 
 
@@ -89,7 +89,7 @@ export default class EditorController {
     grid: null,
     trashcan: true,
     sounds: false,
-    media: "./src/img/",
+    media: "/public/img/",
   };
   private workspace = inject('blocklyDiv', this.workspaceOptionsObj);
 
