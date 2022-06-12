@@ -116,47 +116,64 @@ body {
 
 
 /* =================================BLOCKS================================= */
-#blocksAreasWrapper {
+.topdown#blocksAreasWrapper {
   width: 90vw;
+  height: 130vh;
   margin: auto;
 }
-textarea#outputArea {
+.topdown#outputArea {
   width: 100%;
-  height: 500px;
+  height: 50vh;
   border: 2px solid green;
   resize: none;
-  margin-top: 1em;
+  margin-top: 1em
 }
-#blocklyDiv {
-  height: 915px;
+.topdown#blocklyDiv {
+  width: 100%;
+  height: 80vh;
   border: 2px solid red;
 }
 
 
-.buttonsWrapper{
-  display: grid;
-  grid-template-columns: auto auto auto;
-  gap: 1em;
+.leftright#blocksAreasWrapper {
   width: 90vw;
+  height: 100vh;
   margin: auto;
-  padding-bottom: 3em;
+  display: grid;
+  grid-template-columns: 65% 35%;
+}
+.leftright#outputArea {
+  height: 90vh;
+  border: 2px solid green;
+  resize: none;
+  margin-left: 1em;
+}
+.leftright#blocklyDiv {
+  height: 90vh;
+  border: 2px solid red;
 }
 
-#loadBlocks{
-  display: none;
-}
-#saveAsBlocks,#saveOutput,.loadBlocksFile {
-  padding: 20px 100px 20px 100px;
-  border: 2px solid orange;
-  text-align: center;
-  background-color: #c6c6c6;
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 1em;
-}
-#saveAsBlocks:hover,#saveOutput:hover,.loadBlocksFile:hover {
-  background-color: rgb(255, 206, 114);
-}
 
+.rightleft#blocksAreasWrapper {
+  width: 90vw;
+  height: 100vh;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 35% 65%;
+}
+.rightleft#outputArea {
+  height: 90vh;
+  border: 2px solid green;
+  resize: none;
+  margin-right: 1em;
+  grid-row: 1;
+  grid-column: 1;
+}
+.rightleft#blocklyDiv {
+  height: 90vh;
+  border: 2px solid red;
+  grid-column: 2;
+}
 
 
 .categoryBubble {

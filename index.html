@@ -36,7 +36,7 @@
             <li>
               <button data-loadWs>
                 Load workspace
-                <input type="file" id="loadBlocks" />
+                <input type="file" id="loadBlocks" style="display: none;"/>
               </button>
             </li>
             <li>
@@ -80,9 +80,9 @@
         <div class="layout">
           <button id="showLayout">Layout</button>
           <ul>
-            <li><button data-topdown>Top Down</button></li>
-            <li><button data-leftright>Blocks | Output</button></li>
-            <li><button data-rightleft>Output | Blocks</button></li>
+            <li><button data-layoutTopDown>Top Down</button></li>
+            <li><button data-layoutLeftRight>Blocks | Output</button></li>
+            <li><button data-layoutRightLeft>Output | Blocks</button></li>
           </ul>
         </div>
         <div class="help">
@@ -105,9 +105,10 @@
     <div id="root" style="display: none"></div>
 
     <div id="blocksWorkspace">
-      <div id="blocksAreasWrapper">
-        <div id="blocklyDiv"></div>
+      <div id="blocksAreasWrapper" class="topdown">
+        <div id="blocklyDiv" class="topdown"></div>
         <textarea
+          class="topdown"
           id="outputArea"
           rows="61"
           placeholder="OUTPUT WILL DISPLAY HERE"

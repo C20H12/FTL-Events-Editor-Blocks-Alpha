@@ -224,5 +224,8 @@ export default class EditorController {
     this.updateWorkspace(this.workspaceOptionsObj);
   }
 
+  public refreshWorkspace() {
+    this.updateWorkspace(this.workspaceOptionsObj);
+  }
 }
 
