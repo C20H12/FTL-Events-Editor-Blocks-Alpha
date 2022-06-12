@@ -3,15 +3,18 @@ import EditorController from "./blockFunctions";
 const configHandler = new EditorController();
 
 // open menu and close menu handlers
-const menuBtns = document.querySelectorAll(
+const menuBtns: NodeListOf<HTMLButtonElement> = document.querySelectorAll(
   ".menus>div>button"
-) as NodeListOf<HTMLButtonElement>;
-const allMenus = document.querySelectorAll(
+);
+const allMenus: NodeListOf<HTMLDivElement> = document.querySelectorAll(
   ".menus>div>ul"
-) as NodeListOf<HTMLDivElement>;
-const wholeDocument = document.querySelectorAll(
+);
+const allMenusButtons: NodeListOf<HTMLButtonElement> = document.querySelectorAll(
+  '.menus>div>ul button'
+);
+const wholeDocument: NodeListOf<HTMLDivElement> = document.querySelectorAll(
   "#blocklyDiv,.btns, #outputArea"
-) as NodeListOf<HTMLDivElement>;
+);
 const menuWrapper = document.querySelector(".menus") as HTMLDivElement;
 
 menuBtns.forEach(elem => {
@@ -42,7 +45,7 @@ document.addEventListener("keydown", e => {
     closeMenus();
   }
 });
-
+allMenusButtons.forEach(elem => elem.addEventListener('click', closeMenus))
 // saving and loading handlers
 const saveProject = document.querySelector(
   "[data-saveProject]"
