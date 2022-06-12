@@ -61,10 +61,16 @@ editUndo.addEventListener('click', () => configHandler.editorUndo());
 editRedo.addEventListener('click', () => configHandler.editorRedo());
 editClear.addEventListener('click', () => configHandler.editorClear());
 
-// block workspace handlers
-const editorContinuous = document.querySelector("[data-editorContinuous]") as HTMLButtonElement;
-const editorZoom = document.querySelector("[data-editorZoom]") as HTMLButtonElement;
-const editorScroll = document.querySelector("[data-editorScroll]") as HTMLButtonElement;
-const editorTrash = document.querySelector("[data-editorTrash]") as HTMLButtonElement;
-const editorGrid = document.querySelector("[data-editorGrid]") as HTMLButtonElement;
 
+// block workspace handlers
+const editorContinuous = document.querySelector("[data-editorContinuous]") as HTMLInputElement;
+const editorZoom = document.querySelector("[data-editorZoom]") as HTMLInputElement;
+const editorScroll = document.querySelector("[data-editorScroll]") as HTMLInputElement;
+const editorTrash = document.querySelector("[data-editorTrash]") as HTMLInputElement;
+const editorGrid = document.querySelector("[data-editorGrid]") as HTMLInputElement;
+
+editorContinuous.addEventListener('change', () => configHandler.setIsContinuous(editorContinuous.checked));
+editorZoom.addEventListener('change', () => configHandler.setCanZoom(editorZoom.checked));
+editorScroll.addEventListener('change', () => configHandler.setCanScroll(editorScroll.checked));
+editorTrash.addEventListener('change', () => configHandler.setHasTrashBin(editorTrash.checked));
+editorGrid.addEventListener('change', () => configHandler.setHasGrid(editorGrid.checked));
