@@ -1,5 +1,5 @@
 import { Blocks } from "blockly";
-import { FieldTextInput, FieldNumber, FieldCheckbox, FieldDropdown, FieldColour } from "blockly";
+import { FieldTextInput, FieldNumber, FieldCheckbox, FieldDropdown, FieldColour, FieldMultilineInput } from "blockly";
 
 
 // -------------------------------
@@ -186,7 +186,7 @@ Blocks['text'] = {
     };
     this.appendDummyInput()
         .appendField("<text>")
-        .appendField(new FieldTextInput("Insert your EVENT text here!", validate), "textTag");
+        .appendField(new FieldMultilineInput("Insert your EVENT text here!", validate), "textTag");
     this.setPreviousStatement(true, "allowed_event_childs");
     this.setNextStatement(true, "allowed_event_childs");
     this.setColour("#a0a2ab");
