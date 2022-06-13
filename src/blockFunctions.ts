@@ -89,7 +89,7 @@ export default class EditorController {
     grid: null,
     trashcan: true,
     sounds: false,
-    media: "/public/img/",
+    media: "/img/",
   };
   private workspace = inject('blocklyDiv', this.workspaceOptionsObj);
 
