@@ -114,7 +114,7 @@ JavaScript['attri_maxgp'] = block => {
 
 JavaScript['text'] = block => {
   let text_texttag = block.getFieldValue('textTag');
-  let code = `<text>${text_texttag}</text>\n`;
+  let code = `<text>${text_texttag.replace(/(?:\r\n|\r|\n)/gm,"&#10;")}</text>\n`;
   return code;
 };
 
