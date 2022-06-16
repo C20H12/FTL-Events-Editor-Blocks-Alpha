@@ -3,6 +3,7 @@ import './App.css';
 import EventWindow from './EventWindow';
 import * as defaultData from './defaultData.json';
 
+type state<t> = React.Dispatch<React.SetStateAction<t>>;
 
 export default function App(){
 
@@ -24,7 +25,7 @@ export default function App(){
   )  
 }
 
-function XMLInputBox(props: {setXmlFunction: Function, xmlValue: string}) {
+function XMLInputBox(props: {setXmlFunction: state<string>, xmlValue: string}) {
   const {setXmlFunction, xmlValue} = props;
   const [xmlErr, setXmlErr] = useState("Errors will appear here:");
   
@@ -41,8 +42,7 @@ function XMLInputBox(props: {setXmlFunction: Function, xmlValue: string}) {
         placeholder="EMULATE EVENT HERE" 
         wrap='off'
         onChange={e => {
-          const xmlString = (e.target as HTMLTextAreaElement).value;
-          setXmlFunction(xmlString);
+          setXmlFunction((e.target as HTMLTextAreaElement).value);
         }}
       />
       <div className='xmlErr'>
