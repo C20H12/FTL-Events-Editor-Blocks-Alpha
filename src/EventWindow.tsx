@@ -1,92 +1,92 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { eventObject } from "./xmlToObj";
 
 type state<t> = React.Dispatch<React.SetStateAction<t>>;
 
-export default function EventWindow(props: { xml: string }) {
-  const { xml } = props;
-  const parser = new DOMParser();
-  const parsedXML = parser.parseFromString(xml, "text/xml");
-
-  const [currentEvent, setCurrentEvent] = useState(
-    parsedXML.documentElement as Element
-  );
-
-  const [eventText, setEventText] = useState("");
-  const [eventChoices, setEventChoices] = useState([]);
-
-  const [error, setError] = useState(false);
-  const [end, setEnd] = useState(false);
-
-  useEffect(() => {
-    setCurrentEvent(parsedXML.documentElement as Element);
-    setError(false);
-    setEnd(false);
-  }, [xml]);
-
-  useEffect(() => {
-    const eventText = currentEvent.querySelector("text")?.textContent;
-    if (eventText == null){
-      setEnd(true);
-      setEventText("//**// End of Event //**//");
-    } else setEventText(eventText);
-
-    setEventChoices(Array.from(currentEvent.querySelectorAll("text~choice")));
-  }, [currentEvent]);
-
-  return (
-    <div>
-      {error ? (
-        <span className="text">{"//**// Event Error //**//"}</span>
-      ) : (
-        <span className="text">{eventText}</span>
-      )}
-      {error || end ? 
-      null
-      :
-      <EventSimChoices
-        choicesArr={eventChoices}
-        setNextEvent={setCurrentEvent}
-        setHasError={setError}
-      />
-}
-    </div>
-  );
-}
-
-function EventSimChoices(props: {
-  choicesArr: Element[];
-  setNextEvent: state<Element>;
-  setHasError: state<boolean>;
+export default function EventWindow(props: {
+  eventXmlObject: eventObject | null | string;
+  setEventXmlObject: state<eventObject | null | string>;
+  setLoadNextEvent: state<string>;
+  cannotFindNext: string;
 }) {
-  const { choicesArr, setNextEvent, setHasError } = props;
+  const { eventXmlObject, setEventXmlObject, setLoadNextEvent, cannotFindNext } = props;
+
+  const [isEnd, setIsEnd] = useState(false);
+  const [eventError, setEventError] = useState<string[]>([]);
+  const [normalEvent, setNormalEvent] = useState<eventObject>();
+
+  useEffect(() => {
+    setIsEnd(false);
+    setEventError([]);
+
+    if (typeof eventXmlObject === "string") {
+      setLoadNextEvent(eventXmlObject);
+    } else if (eventXmlObject == null) {
+      setIsEnd(true);
+    } else if (eventXmlObject.err.length > 0) {
+      setEventError(eventXmlObject.err);
+    } else {
+      setNormalEvent(eventXmlObject);
+    }
+  }, [eventXmlObject]);
 
   return (
-    <ol>
-      {choicesArr.length === 0 ? (
-        <li>Continue...</li>
-      ) : (
-        choicesArr.map((elem: Element, i) => {
-          const text = elem.querySelector("text");
+    <>
+      {(() => {
+        if (isEnd) {
+          return <span className="text end">End Of Event</span>;
+        }
+        if (eventError.length > 0) {
           return (
-            <li
-              key={i}
-              onClick={e => {
-                const idx = parseInt(
-                  (e.target as HTMLElement).dataset.choiceIndex!,
-                  10
+            <>
+              <span className="text error" style={{ fontSize: "2em" }}>
+                {"Error!\n"}
+              </span>
+              {eventError.map((error, i) => {
+                return (
+                  <span className="text error" key={i}>
+                    {error}
+                  </span>
                 );
-                const nextEvent = choicesArr[idx]?.querySelector("event");
-                if (nextEvent == null) return setHasError(true);
-                setNextEvent(nextEvent);
-              }}
-              data-choice-index={i}
-            >
-              {text?.textContent || ""}
-            </li>
+              })}
+            </>
           );
-        })
-      )}
-    </ol>
+        }
+        if (cannotFindNext !== "") {
+          return (
+            <>
+              <span className="text error" style={{ fontSize: "2em" }}>
+                {"Error!\n"}
+              </span>
+              <span className="text error">
+                {`ReferenceError: Cannot find next event to load. \n -- Loading "${cannotFindNext}"\n`}
+              </span>
+            </>
+          );
+        }
+        if (normalEvent != null) {
+          return (
+            <>
+              <span className="text">{normalEvent.eventText}</span>
+
+              <ol className="choices">
+                {normalEvent.eventChoices.map((choice, i) => {
+                  return (
+                    <li
+                      key={i}
+                      onClick={() => setEventXmlObject(choice.choiceNextEvent)}
+                      data-choice-index={i}
+                    >
+                      {choice.choiceText}
+                    </li>
+                  );
+                })}
+              </ol>
+            </>
+          );
+        }
+      })()}
+    </>
   );
 }
 
