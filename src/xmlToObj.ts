@@ -1,4 +1,4 @@
-type eventObject = {
+export type eventObject = {
   eventName: string | null;
   eventText: string;
 
@@ -26,6 +26,19 @@ type eventObject = {
         name: string;
         effect?: string;
       } | null>;
+    }
+    crewMember?: {
+      amount: number;
+      skill: string;
+      skillLevel: number;
+      race: string;
+      name: string;
+    }
+    remove?: {
+      name:string;
+    }
+    removeCrew?: {
+      race: string;
     }
   };
 
@@ -55,19 +68,22 @@ export default function xmlToObj(xml: string): eventObject | null | string {
   const eventChoices: eventObject['eventChoices'] = [
     ...doc.querySelectorAll(':root>choice'),
   ].map((choice, idx) => {
-    let text: string | null | undefined = choice.querySelector('text')?.textContent;
-    let nextEvent: string | null | undefined = choice.querySelector('event')?.outerHTML;
+    let text: string | null | undefined = choice.querySelector('choice>text')?.textContent;
+    let nextEvent: string | null | undefined = choice.querySelector('choice>event')?.outerHTML;
     const req = choice.getAttribute("req");
     const lvl = choice.getAttribute("lvl");
     const maxGrp = choice.getAttribute("max_group");
 
     if (text == null) {
-      choiceErrors.push('ChoiceError: No choice text! \n At choice: ' + (idx + 1));
+      choiceErrors.push('ChoiceError: No choice text! \n -- At choice: ' + (idx + 1));
       text = '';
     }
     if (nextEvent == null) {
-      choiceErrors.push('ChoiceError: No next event! \n At choice: ' + (idx + 1));
+      choiceErrors.push('ChoiceError: No next event! \n -- At choice: ' + (idx + 1));
       nextEvent = '<event/>';
+    }
+    if (choice.querySelector("choice>*:not(choice>text, choice>event)")){
+      choiceErrors.push("ChoiceError: Invalid children tags inside choice! \n -- At choice: " + (idx + 1));
     }
 
     return {
@@ -108,12 +124,16 @@ export default function xmlToObj(xml: string): eventObject | null | string {
     eventExtras: {},
   };
 
+  // extras-------------------------------
 
   const autoRewardsTag = doc.querySelector(":root>autoReward");
   const itemModTags = doc.querySelectorAll(":root>item_modify>item");
   const anyEquipmentTag = doc.querySelector(":root>weapon, :root>drone, :root>augment");
   const boardersTag = doc.querySelector(":root>boarders");
   const damageTags = doc.querySelectorAll(":root>damage");
+  const crewMemberTag = doc.querySelector(":root>crewMember");
+  const removeTag = doc.querySelector(":root>remove");
+  const removeCrewTag = doc.querySelector(":root>removeCrew");
 
   if (autoRewardsTag != null){
     obj.eventExtras!.autoRewards = {
@@ -168,12 +188,99 @@ export default function xmlToObj(xml: string): eventObject | null | string {
     }
   }
 
+  if (crewMemberTag != null) {
+    const skill = [
+      "weapons",
+      "shields",
+      "pilot",
+      "engines",
+      "combat",
+      "repair",
+      "all_skills",
+    ].filter(skill => crewMemberTag.getAttribute(skill) != null)[0];
+
+    obj.eventExtras!.crewMember = {
+      amount: parseInt(crewMemberTag.getAttribute("amount") ?? '', 10),
+      skill: skill == undefined ? "random" : skill,
+      skillLevel: skill == undefined ? 1 : parseInt(crewMemberTag.getAttribute(skill)!, 10),
+      race: crewMemberTag.getAttribute("class") ?? "random",
+      name: crewMemberTag.textContent || "default name"
+    }
+  }
+
+  if (removeTag != null) {
+    obj.eventExtras!.remove = {
+      name: removeTag.getAttribute("name") ?? "",
+    }
+  }
+
+  if (removeCrewTag != null) {
+    obj.eventExtras!.removeCrew = {
+      race: removeCrewTag.getAttribute("class") ?? "random",
+    }
+  }
+
+
   obj.err = [...errorCheck(obj, doc), ...choiceErrors];
 
   return obj;
 }
 
-// todo - add crew and remove crew and remove equipment
+
+const allowedAutoRewardTypes = [
+  "standard",
+  "stuff",
+  "fuel",
+  "missiles",
+  "droneparts",
+  "scrap_only",
+  "fuel_only",
+  "missiles_only",
+  "droneparts_only",
+  "item",
+  "weapon",
+  "drone",
+  "augment",
+];
+const allowedLevels = ["LOW", "MED", "HIGH", "RANDOM"];
+const allowedItemModTypes = [
+  "scrap",
+  "fuel",
+  "missiles",
+  "drones",
+];
+const allowedEquipmentTypes = [
+  "weapon",
+  "drone",
+  "augment",
+];
+const allowedSystems = [
+  "shields",
+  "weapons",
+  "engines",
+  "medbay",
+  "clonebay",
+  "oxygen",
+  "teleporter",
+  "drones",
+  "cloaking",
+  "artillery",
+  "hacking",
+  "mind",
+  "pilot",
+  "sensors",
+  "doors",
+  "battery",
+  "room",
+  "random",
+];
+const allowedEffects = [
+  "fire",
+  "breach",
+  "all",
+  "random",
+];
+
 
 function errorCheck(object: eventObject, parsedDoc: Document): string[] {
   const errors: string[] = [];
@@ -189,27 +296,10 @@ function errorCheck(object: eventObject, parsedDoc: Document): string[] {
   if (object.eventExtras != null) {
 
     if (object.eventExtras.autoRewards != null) {
-      const allowedTypes = [
-        "standard",
-        "stuff",
-        "fuel",
-        "missiles",
-        "droneparts",
-        "scrap_only",
-        "fuel_only",
-        "missiles_only",
-        "droneparts_only",
-        "item",
-        "weapon",
-        "drone",
-        "augment",
-      ];
-      const allowedLevels = ["LOW", "MED", "HIGH", "RANDOM"];
-
       if (object.eventExtras.autoRewards.type === '') {
         errors.push('EventError: AutoRewards type is empty!');
       }
-      if (!allowedTypes.includes(object.eventExtras.autoRewards.type)) {
+      if (!allowedAutoRewardTypes.includes(object.eventExtras.autoRewards.type)) {
         errors.push('EventError: AutoRewards type is not one of the allowed types!');
       }
       if (!allowedLevels.includes(object.eventExtras.autoRewards.level)) {
@@ -219,12 +309,6 @@ function errorCheck(object: eventObject, parsedDoc: Document): string[] {
 
 
     if (object.eventExtras.itemModify != null) {
-      const allowedTypes = [
-        "scrap",
-        "fuel",
-        "missiles",
-        "drones",
-      ]
       if (object.eventExtras.itemModify.length === 0) {
         errors.push('EventError: ItemModify is empty!');
       }
@@ -232,7 +316,7 @@ function errorCheck(object: eventObject, parsedDoc: Document): string[] {
         if (itemMod.type === '') {
           errors.push('EventError: ItemModify type is empty!');
         }
-        if (!allowedTypes.includes(itemMod.type)) {
+        if (!allowedItemModTypes.includes(itemMod.type)) {
           errors.push('EventError: ItemModify type is not one of the allowed types!');
         }
         if (isNaN(itemMod.min)) {
@@ -252,15 +336,10 @@ function errorCheck(object: eventObject, parsedDoc: Document): string[] {
 
 
     if (object.eventExtras.equipment != null) {
-      const allowedTypes = [
-        "weapon",
-        "drone",
-        "augment",
-      ]
       if (object.eventExtras.equipment.type === '') {
         errors.push('EventError: Equipment type is empty!');
       }
-      if (!allowedTypes.includes(object.eventExtras.equipment.type)) {
+      if (!allowedEquipmentTypes.includes(object.eventExtras.equipment.type)) {
         errors.push('EventError: Equipment type is not one of the allowed types!');
       }
     }
@@ -287,32 +366,6 @@ function errorCheck(object: eventObject, parsedDoc: Document): string[] {
         errors.push("EventError: Damage amount is not a number!")
       }
       object.eventExtras.damage.system.forEach(system => {
-        const allowedSystems = [
-          "shields",
-          "weapons",
-          "engines",
-          "medbay",
-          "clonebay",
-          "oxygen",
-          "teleporter",
-          "drones",
-          "cloaking",
-          "artillery",
-          "hacking",
-          "mind",
-          "pilot",
-          "sensors",
-          "doors",
-          "battery",
-          "room",
-          "random",
-        ];
-        const allowedEffects = [
-          "fire",
-          "breach",
-          "all",
-          "random",
-        ];
         if (system == null) return;
         if (!allowedSystems.includes(system.name)) {
           errors.push("EventError: Damage system is not one of the allowed systems!");
@@ -323,6 +376,29 @@ function errorCheck(object: eventObject, parsedDoc: Document): string[] {
       });
     }
     
+    if (object.eventExtras.crewMember != null) {
+      if (isNaN(object.eventExtras.crewMember.amount)){
+        errors.push("EventError: CrewMember amount is not a number!")
+      }
+      if (object.eventExtras.crewMember.skillLevel < -1 || object.eventExtras.crewMember.skillLevel > 2) {
+        errors.push("EventError: CrewMember skillLevel is not within the allowed range!")
+      }
+      if (object.eventExtras.crewMember.race === '') {
+        errors.push("EventError: CrewMember race is emepty!")
+      }
+    }
+
+    if (object.eventExtras.remove != null) {
+      if (object.eventExtras.remove.name === '') {
+        errors.push('EventError: Remove name is empty!');
+      }
+    }
+
+    if (object.eventExtras.removeCrew != null) {
+      if (object.eventExtras.removeCrew.race === '') {
+        errors.push('EventError: RemoveCrew race is empty!');
+      }
+    }
   }
 
   return errors;
