@@ -1,0 +1,84 @@
+
+.topdown#blocksAreasWrapper {
+  width: 90vw;
+  height: 130vh;
+  margin: auto;
+}
+.topdown#outputArea {
+  width: 100%;
+  height: 50vh;
+  border: 2px solid green;
+  resize: none;
+  margin-top: 1em
+}
+.topdown#blocklyDiv {
+  width: 100%;
+  height: 80vh;
+  border: 2px solid red;
+}
+
+
+.leftright#blocksAreasWrapper {
+  width: 90vw;
+  height: 100vh;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 65% 35%;
+}
+.leftright#outputArea {
+  height: 90vh;
+  border: 2px solid green;
+  resize: none;
+  margin-left: 1em;
+}
+.leftright#blocklyDiv {
+  height: 90vh;
+  border: 2px solid red;
+}
+
+
+.rightleft#blocksAreasWrapper {
+  width: 90vw;
+  height: 100vh;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 35% 65%;
+}
+.rightleft#outputArea {
+  height: 90vh;
+  border: 2px solid green;
+  resize: none;
+  margin-right: 1em;
+  grid-row: 1;
+  grid-column: 1;
+}
+.rightleft#blocklyDiv {
+  height: 90vh;
+  border: 2px solid red;
+  grid-column: 2;
+}
+
+
+.categoryBubble {
+  width: 90%;
+  border-radius: 0;
+  border: none;
+  height: 5px;
+}
+
+.hsSeparator{
+  margin-top: 2em;
+  margin-bottom: 2em;
+  padding: 5px 0 5px 0;
+  height: 2em;
+  border-bottom: 3px solid black;
+  border-top: 3px solid black;;
+  text-align: center;
+  background: rgba(58, 127, 255, 0.5);
+}
+.hsSeparator::after{
+  content: "Hyperspace\ATags";
+  white-space: pre;
+  color:rgb(0, 26, 255);
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}

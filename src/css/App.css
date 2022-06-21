@@ -1,0 +1,133 @@
+@font-face{
+  font-family: ftlStyleSlim;
+  src: url('/fonts/c&cnew.ttf')
+}
+@font-face{
+  font-family: ftlStyle;
+  src: url('/fonts/JustinFont11Bold.ttf')
+}
+
+/* =========event box======== */
+
+.root {
+  font-size: 15px;
+}
+
+.eventBox {
+  margin: 2em 0 0 2em;
+  position: relative;
+  width: 53em;
+  box-shadow: 0 0 15px #3a7fff;
+  background-image: url('/img/background_dot.png');
+}
+.corners {
+  height: 30em;
+  border: 3px solid #fff;
+}
+.eventBox:before,
+.eventBox:after,
+.corners:before,
+.corners:after {
+  position: absolute;
+  background: #fff;
+  content: " ";
+  display: block;
+  height: 2em;
+  width: 2em;
+  border-left: 3px solid #fff;
+  box-shadow: inset 14px 0 15px -15px #3a7fff;
+}
+.eventBox:before {
+  left: -16px;
+  top: -14px;
+  transform: rotate(-135deg);  
+}
+.eventBox:after {
+  right: -16px;
+  top: -14px;
+  transform: rotate(-45deg); 
+}
+.corners:before {
+  left: -16px;
+  bottom: -14px;
+  transform: rotate(135deg); 
+}
+.corners:after {  
+  right: -16px;
+  bottom: -14px;
+  transform: rotate(45deg);
+}
+
+/* ========xml input======== */
+.xmlinput{
+  margin: 3em;
+  width: 53em;
+  display: inline-block;
+}
+#eventEmuInput {
+  resize: none;
+  width: 100%;
+  height: 30em;
+  overflow-x: scroll;
+}
+
+.xmlErr {
+  width: calc(100% - 2em);
+  padding: 1em;
+  border: 2px solid black;
+  font-family: monospace;
+}
+.xmlErr > .e {
+  color: red;
+  background: rgba(255, 85, 0, 0.212);
+  font-weight: bold;
+}
+.xmlErr > .lnCol {
+  color: #1017e6;
+  background: rgba(250, 255, 99, 0.498);
+}
+
+/* load xml */
+.xmlControl {
+  display: inline-block;
+  height: 30em;
+  width: 20em;
+  position: relative;
+  padding: 2em;
+  overflow: scroll;
+}
+.xmlControl>.reload {
+  background-color: #967070;
+  border: 2px solid #7c75c2;
+  color: #e5e5e5;
+  font-size: 1.5em;
+  font-family: ftlStyleSlim;
+  text-align: center;
+  padding: 0.5em;
+  width: 100%;
+}
+.xmlControl>.reload:hover{
+  background-color: #96707066;
+  border: 2px solid #1500ff;
+  cursor: pointer;
+}
+.xmlControl>.entryPoint {
+  display: block;
+  background-color: #967070;
+  margin: 0.5em;
+  border: 2px solid #7c75c2;
+  color: #e5e5e5;
+  font-size: 1.5em;
+  font-family: ftlStyleSlim;
+  text-align: center;
+  padding: 0.3em 0.5em;
+}
+
+.xmlControl>.entryPoint:hover{
+  background-color: #96707066;
+  border: 2px solid #1500ff;
+  cursor: pointer;
+}
+
+
+
