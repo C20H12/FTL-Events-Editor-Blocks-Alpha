@@ -1,3 +1,0 @@
-{
-  "defaultEvent1": "<event><text>- This is the testing interface. Input your full XML below, and select an entry point to load in this window! &#10;- Text here will auto update as your XML changes. &#10;- You can reload the selected event with the 'reload' button. &#10;- You can switch to another event by changing your selection.&#10;- **Do not include FTL root tags!</text><choice><text>Ok</text><event/></choice></event>"
-}

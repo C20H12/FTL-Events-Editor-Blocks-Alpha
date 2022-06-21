@@ -1,14 +1,14 @@
 import { useState, useEffect, useMemo } from "react";
 import "./App.css";
 import EventWindow from "./EventWindow";
-import * as defaultData from "./defaultData.json";
+import {defaultEvent1} from "./defaultData";
 import xmlToObj from "./xmlToObj";
 
 type state<t> = React.Dispatch<React.SetStateAction<t>>;
 
 export default function App() {
   const [wholeXml, setWholeXml] = useState(
-    `<FTL>${defaultData.defaultEvent1}</FTL>`
+    `<FTL>${defaultEvent1}</FTL>`
   );
 
   const parser = new DOMParser();
@@ -18,7 +18,7 @@ export default function App() {
 
   const [reload, setReload] = useState(1);
 
-  const [currentSelectedEvent, setCurrentSelectedEvent] = useState("");
+  const [currentSelectedEvent, setCurrentSelectedEvent] = useState("WELCOME");
   const [currentEventRaw, setCurrentEventRaw] = useState(
     xmlDoc.documentElement.innerHTML
   );

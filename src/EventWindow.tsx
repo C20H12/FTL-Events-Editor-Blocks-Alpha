@@ -39,8 +39,11 @@ export default function EventWindow(props: {
     }
   }, [eventXmlObject]);
 
-
-  if (cannotFindNext !== "can find next" || hasXmlSyntaxErr || hasDuplicatedEvents) {
+  if (
+    cannotFindNext !== "can find next" ||
+    hasXmlSyntaxErr ||
+    hasDuplicatedEvents
+  ) {
     return (
       <>
         <span className="text error" style={{ fontSize: "2em" }}>
@@ -63,50 +66,48 @@ export default function EventWindow(props: {
     );
   }
 
+  if (isEnd) {
+    return <span className="text end">End Of Event</span>;
+  }
+
+  if (eventError.length > 0) {
+    return (
+      <>
+        <span className="text error" style={{ fontSize: "2em" }}>
+          {"Error!\n"}
+        </span>
+        {eventError.map((error, i) => {
+          return (
+            <span className="text error" key={i}>
+              {error}
+            </span>
+          );
+        })}
+      </>
+    );
+  }
+
   return (
     <>
-      {(() => {
-        if (isEnd) {
-          return <span className="text end">End Of Event</span>;
-        }
-        if (eventError.length > 0) {
-          return (
-            <>
-              <span className="text error" style={{ fontSize: "2em" }}>
-                {"Error!\n"}
-              </span>
-              {eventError.map((error, i) => {
-                return (
-                  <span className="text error" key={i}>
-                    {error}
-                  </span>
-                );
-              })}
-            </>
-          );
-        }
-        if (normalEvent != null) {
-          return (
-            <>
-              <span className="text">{normalEvent.eventText}</span>
+      {normalEvent && (
+        <>
+          <span className="text">{normalEvent.eventText}</span>
 
-              <ol className="choices">
-                {normalEvent.eventChoices.map((choice, i) => {
-                  return (
-                    <li
-                      key={i}
-                      onClick={() => setEventXmlObject(choice.choiceNextEvent)}
-                      data-choice-index={i}
-                    >
-                      {choice.choiceText}
-                    </li>
-                  );
-                })}
-              </ol>
-            </>
-          );
-        }
-      })()}
+          <ol className="choices">
+            {normalEvent.eventChoices.map((choice, i) => {
+              return (
+                <li
+                  key={i}
+                  onClick={() => setEventXmlObject(choice.choiceNextEvent)}
+                  data-choice-index={i}
+                >
+                  {choice.choiceText}
+                </li>
+              );
+            })}
+          </ol>
+        </>
+      )}
     </>
   );
 }
