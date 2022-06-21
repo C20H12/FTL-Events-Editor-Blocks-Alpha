@@ -284,9 +284,7 @@ const allowedEffects = [
 
 function errorCheck(object: eventObject, parsedDoc: Document): string[] {
   const errors: string[] = [];
-
-  if (parsedDoc.querySelector('parsererror') != null)
-    errors.push('XMLSyntaxError: See below for details!');
+    
   if (parsedDoc.documentElement.nodeName !== 'event')
     errors.push('StructureError: Event does not begin with an event tag!');
 

@@ -29,13 +29,16 @@ export default function App() {
   );
   const [currentEvent, setCurrentEvent] = useState(convertedEvent);
 
-  const [cannotFindNext, setCannotFindNext] = useState("");
+  const [cannotFindNext, setCannotFindNext] = useState("can find next");
+  const [hasXmlSyntaxErr, setHasXmlSyntaxErr] = useState(false);
+  const [hasDuplicatedEvents, setHasDuplicatedEvents] = useState(false);
 
   useEffect(() => {
     const event = xmlDoc.querySelector(
       `:root>event[name="${currentSelectedEvent}"]`
     );
-    setCannotFindNext("");
+
+    setCannotFindNext("can find next");
     if (event == null) {
       setCannotFindNext(currentSelectedEvent);
       return;
@@ -51,7 +54,21 @@ export default function App() {
         event => event.getAttribute("name") ?? "no name"
       )
     );
+
+    setHasXmlSyntaxErr(false);
+    if (xmlDoc.querySelector("parsererror") != null) {
+      setHasXmlSyntaxErr(true);
+    };
   }, [wholeXml]);
+
+  useEffect(() => {
+    setHasDuplicatedEvents(false);
+    allEventNames.forEach((eventName, i, thisArr) => {
+      if (thisArr.indexOf(eventName) !== i) {
+        setHasDuplicatedEvents(true);
+      }
+    })
+  }, [allEventNames]);
 
 
   return (
@@ -64,6 +81,8 @@ export default function App() {
               setEventXmlObject={setCurrentEvent}
               setLoadNextEvent={setCurrentSelectedEvent}
               cannotFindNext={cannotFindNext}
+              hasXmlSyntaxErr={hasXmlSyntaxErr}
+              hasDuplicatedEvents={hasDuplicatedEvents}
             />
           </div>
         </div>

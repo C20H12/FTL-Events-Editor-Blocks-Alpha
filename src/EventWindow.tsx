@@ -8,8 +8,17 @@ export default function EventWindow(props: {
   setEventXmlObject: state<eventObject | null | string>;
   setLoadNextEvent: state<string>;
   cannotFindNext: string;
+  hasXmlSyntaxErr: boolean;
+  hasDuplicatedEvents: boolean;
 }) {
-  const { eventXmlObject, setEventXmlObject, setLoadNextEvent, cannotFindNext } = props;
+  const {
+    eventXmlObject,
+    setEventXmlObject,
+    setLoadNextEvent,
+    cannotFindNext,
+    hasXmlSyntaxErr,
+    hasDuplicatedEvents,
+  } = props;
 
   const [isEnd, setIsEnd] = useState(false);
   const [eventError, setEventError] = useState<string[]>([]);
@@ -30,6 +39,30 @@ export default function EventWindow(props: {
     }
   }, [eventXmlObject]);
 
+
+  if (cannotFindNext !== "can find next" || hasXmlSyntaxErr || hasDuplicatedEvents) {
+    return (
+      <>
+        <span className="text error" style={{ fontSize: "2em" }}>
+          {"Error!\n"}
+        </span>
+        <span className="text error">
+          {(() => {
+            if (cannotFindNext !== "can find next") {
+              return `ReferenceError: Cannot find next event to load. \n -- Loading "${cannotFindNext}"\n`;
+            }
+            if (hasXmlSyntaxErr) {
+              return `XMLSyntaxError: See below for details!\n`;
+            }
+            if (hasDuplicatedEvents) {
+              return `Structure Error: Raw event markup contains duplicated event names!\n`;
+            }
+          })()}
+        </span>
+      </>
+    );
+  }
+
   return (
     <>
       {(() => {
@@ -49,18 +82,6 @@ export default function EventWindow(props: {
                   </span>
                 );
               })}
-            </>
-          );
-        }
-        if (cannotFindNext !== "") {
-          return (
-            <>
-              <span className="text error" style={{ fontSize: "2em" }}>
-                {"Error!\n"}
-              </span>
-              <span className="text error">
-                {`ReferenceError: Cannot find next event to load. \n -- Loading "${cannotFindNext}"\n`}
-              </span>
             </>
           );
         }

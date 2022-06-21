@@ -93,7 +93,6 @@
   height: 30em;
   width: 20em;
   position: relative;
-  bottom: 20em;
   padding: 2em;
   overflow: scroll;
 }
@@ -115,7 +114,7 @@
 .xmlControl>.entryPoint {
   display: block;
   background-color: #967070;
-  margin: 0.5em auto;
+  margin: 0.5em;
   border: 2px solid #7c75c2;
   color: #e5e5e5;
   font-size: 1.5em;
@@ -184,7 +183,15 @@
   color: rgb(255, 145, 0);
   background-color: rgba(255, 85, 0, 0.212);
   display: block;
-  padding: 0.5em 0;
+  padding: 0.5em;
+}
+
+.main_event>.text.end {
+  color: rgb(0, 201, 34);
+  background-color: rgba(0, 255, 68, 0.212);
+  display: block;
+  padding: 0.5em;
+  font-size: 2em;
 }
 
 .main_event li:hover {
