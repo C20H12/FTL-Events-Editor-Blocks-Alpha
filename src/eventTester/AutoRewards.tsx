@@ -88,21 +88,21 @@ export default function AutoRewards(props: { rewardType: string; rewardLvl: stri
     case "fuel_only":
       return (
         <>
-          <img src="/img/fuel_plus" alt="e" />
+          <img src="/img/fuel_plus.png" alt="e" />
           <span>{currentLevel.s}</span>
         </>
       );
     case "missiles_only":
       return (
         <>
-          <img src="/img/missiles_plus" alt="e" />
+          <img src="/img/missiles_plus.png" alt="e" />
           <span>{currentLevel.s}</span>
         </>
       );
     case "droneparts_only":
       return (
         <>
-          <img src="/img/drones_plus" alt="e" />
+          <img src="/img/drones_plus.png" alt="e" />
           <span>{currentLevel.s}</span>
         </>
       );
