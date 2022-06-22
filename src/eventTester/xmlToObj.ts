@@ -2,7 +2,7 @@ export type eventObject = {
   eventName: string | null;
   eventText: string;
 
-  eventExtras?: {
+  eventExtras: {
     autoRewards?: {
       type: string;
       level: string;
@@ -14,6 +14,7 @@ export type eventObject = {
     }>;
     equipment?: {
       type: string;
+      name: string;
     }
     boarders?: {
       min: number;
@@ -49,6 +50,8 @@ export type eventObject = {
     choiceReq: string | null;
     choiceLvl: number|null;
     choiceMaxGrp: number|null;
+    choiceMaxLvl: number|null;
+    choiceBlue: boolean;
   }>;
   err: string[];
 };
@@ -73,6 +76,7 @@ export default function xmlToObj(xml: string): eventObject | null | string {
     const req = choice.getAttribute("req");
     const lvl = choice.getAttribute("lvl");
     const maxGrp = choice.getAttribute("max_group");
+    const maxLvl = choice.getAttribute("max_lvl");
 
     if (text == null) {
       choiceErrors.push('ChoiceError: No choice text! \n -- At choice: ' + (idx + 1));
@@ -93,6 +97,8 @@ export default function xmlToObj(xml: string): eventObject | null | string {
       choiceReq: req,
       choiceLvl: lvl == null ? null : parseInt(lvl, 10),
       choiceMaxGrp: maxGrp == null ? null : parseInt(maxGrp, 10),
+      choiceMaxLvl: maxLvl == null ? null : parseInt(maxLvl, 10),
+      choiceBlue: choice.getAttribute("blue") === "true"
     };
   }).sort((c1, c2) => {
     let maxGrp1 = c1.choiceMaxGrp;
@@ -112,6 +118,8 @@ export default function xmlToObj(xml: string): eventObject | null | string {
       choiceReq: null,
       choiceLvl: null,
       choiceMaxGrp: null,
+      choiceMaxLvl: null,
+      choiceBlue: false,
     });
   };
 
@@ -149,12 +157,27 @@ export default function xmlToObj(xml: string): eventObject | null | string {
         min: parseInt(itemMod.getAttribute("min") ?? '', 10),
         max: parseInt(itemMod.getAttribute("max") ?? '', 10)
       }
+    }).sort((item1, item2) => {
+      const type1 = item1.type;
+      const type2 = item2.type;
+      let priority1 = 0;
+      let priority2 = 0;
+      if (type1 === "scrap") priority1 = 4;
+      if (type2 === "scrap") priority2 = 4;
+      if (type1 === "fuel") priority1 = 1;
+      if (type2 === "fuel") priority2 = 1;
+      if (type1 === "missiles") priority1 = 2;
+      if (type2 === "missiles") priority2 = 2;
+      if (type1 === "drones") priority1 = 3;
+      if (type2 === "drones") priority2 = 3;
+      return priority1 - priority2;
     })
   }
 
   if (anyEquipmentTag != null) {
     obj.eventExtras!.equipment = {
       type: anyEquipmentTag.tagName,
+      name: anyEquipmentTag.getAttribute("name") ?? ""
     };
   }
 
@@ -249,11 +272,6 @@ const allowedItemModTypes = [
   "missiles",
   "drones",
 ];
-const allowedEquipmentTypes = [
-  "weapon",
-  "drone",
-  "augment",
-];
 const allowedSystems = [
   "shields",
   "weapons",
@@ -334,11 +352,8 @@ function errorCheck(object: eventObject, parsedDoc: Document): string[] {
 
 
     if (object.eventExtras.equipment != null) {
-      if (object.eventExtras.equipment.type === '') {
-        errors.push('EventError: Equipment type is empty!');
-      }
-      if (!allowedEquipmentTypes.includes(object.eventExtras.equipment.type)) {
-        errors.push('EventError: Equipment type is not one of the allowed types!');
+      if (object.eventExtras.equipment.name === '') {
+        errors.push('EventError: Equipment name is empty!');
       }
     }
 
