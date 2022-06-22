@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { eventObject } from "./xmlToObj";
+import EventMessage from "./EventMessage";
 
 type state<t> = React.Dispatch<React.SetStateAction<t>>;
 
@@ -40,7 +41,7 @@ export default function EventWindow(props: {
   }, [eventXmlObject]);
 
   if (
-    cannotFindNext !== "can find next" ||
+    (cannotFindNext !== "can find next" && cannotFindNext !== "WELCOME") ||
     hasXmlSyntaxErr ||
     hasDuplicatedEvents
   ) {
@@ -93,6 +94,10 @@ export default function EventWindow(props: {
         <>
           <span className="text">{normalEvent.eventText}</span>
 
+          {Object.keys(normalEvent.eventExtras).length !== 0 && (
+            <EventMessage eventExtras={normalEvent.eventExtras} />
+          )}
+
           <ol className="choices">
             {normalEvent.eventChoices.map((choice, i) => {
               return (
@@ -111,12 +116,3 @@ export default function EventWindow(props: {
     </>
   );
 }
-
-// function EventSimMsgBox() {
-//   return (
-//     <>
-//       <br />
-//       <div className="message">aaaaaaaaaaaaaaaaaaaaaaaaaa</div>
-//     </>
-//   );
-// }
