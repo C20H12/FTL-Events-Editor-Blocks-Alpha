@@ -136,8 +136,7 @@ export default function AutoRewards(props: { rewardType: string; rewardLvl: stri
         <>
           <img src="/img/scrap_plus.png" alt="e" />
           <span>{currentLevel.s}</span>
-          <img src="/img/augment_placehold.png" />
-          <span>Weapon</span>
+          <span><b>Augment: </b> Random Aug</span>
         </>
       );
   }
