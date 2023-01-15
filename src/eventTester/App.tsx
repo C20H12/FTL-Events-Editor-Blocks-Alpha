@@ -98,3 +98,5 @@ export default function App() {
   );
 }
 
+// todo: change the errors into one object called fatalErrors
+// todo: change the error checking function into checing empty strings and nans
