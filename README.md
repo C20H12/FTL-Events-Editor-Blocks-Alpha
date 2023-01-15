@@ -1,4 +1,6 @@
 # FTL-Events-Editor-Blocks-Alpha
+## This project is deprecated. This repo will be closed and the deployment site will be down. You may still fork it for viewing and editing.
+___
 ## New-gen interactive editor aimed to make modding for FTL: Faster Than Light easier
 ___
 ### Features
