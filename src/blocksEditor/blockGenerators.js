@@ -896,6 +896,13 @@ JavaScript['hs_temp_variable'] = block => {
   return code;
 };
 
+JavaScript['attri_var_name'] = block => {
+  let text_val = block.getFieldValue("VAR_NAME");
+  let value_more_attributes = JavaScript.valueToCode(block, 'VAR_NAME_ATTRI', JavaScript.ORDER_ATOMIC);
+  let code = `name="${text_val}" ${value_more_attributes}`;
+  return [code, JavaScript.ORDER_ATOMIC];
+};
+
 JavaScript['attri_var_val'] = block => {
   let num_val = block.getFieldValue("VAR_VAL");
   let value_more_attributes = JavaScript.valueToCode(block, 'VAR_VAL_ATTRI', JavaScript.ORDER_ATOMIC);

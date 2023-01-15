@@ -564,6 +564,10 @@ export const toolbox: BlocklyToolboxDef = {
         },
         {
           kind: "block",
+          type: "attri_var_name",
+        },
+        {
+          kind: "block",
           type: "attri_var_val",
         },
         {

@@ -1840,6 +1840,19 @@ Blocks['hs_temp_variable'] = {
   }
 };
 
+Blocks['attri_var_name'] = {
+  init() {
+    this.appendValueInput("VAR_NAME_ATTRI")
+        .setCheck("allowed_var_attributes")
+        .appendField("name:")
+        .appendField(new FieldTextInput("variable_name"), "VAR_NAME");
+    this.setOutput(true, "allowed_var_attributes");
+    this.setColour("#c4975c");
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
+
 Blocks['attri_var_val'] = {
   init() {
     this.appendValueInput("VAR_VAL_ATTRI")
